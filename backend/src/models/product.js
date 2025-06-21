@@ -1,0 +1,98 @@
+import Mongoose from "mongoose";
+
+const productSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+    summary: {
+      type: String,
+      trim: true,
+    },
+    description: {
+      type: String,
+      trim: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    oldPrice: {
+      type: Number,
+    },
+    inStock: {
+      type: Boolean,
+      default: true,
+    },
+    quantity: {
+      type: Number,
+      default: 0,
+    },
+    mainImage: {
+      type: String,
+    },
+    images: [
+      {
+        type: String,
+      },
+    ],
+    size: {
+      type: Number, // change this to [Number] for multiple sizes
+    },
+    color: {
+      type: String,
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+      index: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    reviewCount: {
+      type: Number,
+      default: 0,
+    },
+
+    // Test SEO
+    metaTitle: {
+      type: String,
+      trim: true,
+    },
+    metaDescription: {
+      type: String,
+      trim: true,
+    },
+    metaKeywords: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
+// TEST
+// Indexes for better performance on common queries
+productSchema.index({ slug: 1 }, { unique: true });
+productSchema.index({ category: 1 });
+productSchema.index({ user: 1 });
+
+export default mongoose.model("Product", productSchema);
