@@ -1,4 +1,4 @@
-import product from "../models/product.js";
+import product from "../../models/product.js";
 
 export const getProducts = async (req, res) => {
   try {
@@ -39,7 +39,8 @@ export const createProduct = async (req, res) => {
     const userId = "60c72b2f9b1d8c4378f5a9e2"; // TEMP 4 testing
 
     // Generate a URL-friendly slug here so the frontend doesn't have to <3
-    let slug = title.replaceAll(" ", "-").toLowerCase() + "-" + new Date().getTime();
+    let slug =
+      title.replaceAll(" ", "-").toLowerCase() + "-" + new Date().getTime();
 
     await product.create({
       title,
@@ -113,7 +114,6 @@ export const deleteProduct = async (req, res) => {
 
     if (!unwantedProduct) return res.status(404).send("Product not found");
     res.status(200).json({ success: true, message: "Deleted" });
-
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
