@@ -1,4 +1,4 @@
-import Mongoose from "mongoose";
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       unique: true,
       index: true,
+      trim: true,
     },
     summary: {
       type: String,
@@ -24,9 +25,12 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
+      min: 0,
     },
     oldPrice: {
       type: Number,
+      default: 0,
+      min: 0,
     },
     inStock: {
       type: Boolean,
@@ -35,6 +39,7 @@ const productSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       default: 0,
+      min: 0,
     },
     mainImage: {
       type: String,
@@ -46,16 +51,24 @@ const productSchema = new mongoose.Schema(
     ],
     size: {
       type: Number, // change this to [Number] for multiple sizes
-    },
-    color: {
-      type: String,
-    },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
       required: true,
-      index: true,
     },
+    color: [
+      {
+        type: String,
+        trim: true,
+        lowercase: true,
+        //enum: ["red", "green", "blue", "black", "white", "gray", "beige"],
+      },
+    ],
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        required: true,
+        index: true,
+      },
+    ],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -88,11 +101,5 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-// TEST
-// Indexes for better performance on common queries
-productSchema.index({ slug: 1 }, { unique: true });
-productSchema.index({ category: 1 });
-productSchema.index({ user: 1 });
 
 export default mongoose.model("Product", productSchema);

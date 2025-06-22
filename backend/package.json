@@ -2,12 +2,12 @@
   "name": "elevher-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "start": "src/node server.js",
+    "start": "src/node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server.js",
-    "watch": "nodemon src/server.js"
+    "dev": "node app.js",
+    "watch": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
