@@ -6,17 +6,22 @@ import {
   updateProduct,
   deleteProduct,
 } from "./product.controller.js";
+import validateObjectId from "../../middlewares/idValidator.js";
+import { AuthGuard, RoleGuard } from "../../middlewares/auth.middlewares.js";
 
 const router = express.Router();
 
-router.get("/", getProducts);
+router
+  .route("/")
+  .get(getProducts)
+  .post(AuthGuard, RoleGuard("admin"), createProduct);
 
 router.get("/:slug", getProduct);
 
-router.post("/", createProduct);
-
-router.patch("/:id", updateProduct);
-
-router.delete("/:id", deleteProduct);
+router
+  .route("/:id")
+  .all(AuthGuard, RoleGuard("admin"), validateObjectId)
+  .patch(updateProduct)
+  .delete(deleteProduct);
 
 export default router;
