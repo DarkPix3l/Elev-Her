@@ -1,5 +1,4 @@
 //GLOBALS
-
 import jwt from "jsonwebtoken";
 import User from "../modules/users/user.schema.js";
 import { JWT_KEY } from "../config/variable.js";
@@ -8,8 +7,6 @@ import { JWT_KEY } from "../config/variable.js";
 //just token verification
 export const AuthGuard = async (request, response, next) => {
 	try {
-		// Reading token from headers
-		// For Bearer token
 		let token = request.headers.authorization.split(" ")[1];
 		// Decoding token
 		let decoded = jwt.verify(token, JWT_KEY);
@@ -28,7 +25,7 @@ export const RoleGuard = (role) => {
 	return async (request, response, next) => {
 		try {
 			let user = request.user;
-			if (user.role != role) return response.status(403).send("Wrong role");
+			if (user.role != role) return response.status(403).send("Unautorized");
 			next();
 		} catch (error) {
 			return response.status(500).send("Server Error");

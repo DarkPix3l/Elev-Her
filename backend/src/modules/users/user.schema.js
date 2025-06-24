@@ -2,8 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    name: String,
-    surname: String,
+    name: { type: String, default: "" },
+    surname: { type: String, default: "" },
+    username: { type: String, default: "", required: true },
+    birthDate: { type: String, required: true},
     email: {
       type: String,
       required: true,
@@ -14,18 +16,18 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     address: {
-      street: String,
-      apartment: String,
-      city: String,
-      postalCode: String,
-      country: String,
+      street: { type: String, default: "" },
+      apartment: { type: String, default: "" },
+      city: { type: String, default: "" },
+      postalCode: { type: String, default: "" },
+      country: { type: String, default: "" },
     },
     shippingAddress: {
-      street: String,
-      apartment: String,
-      city: String,
-      postalCode: String,
-      country: String,
+      street: { type: String, default: "" },
+      apartment: { type: String, default: "" },
+      city: { type: String, default: "" },
+      postalCode: { type: String, default: "" },
+      country: { type: String, default: "" },
     },
     verified: {
       type: Boolean,
