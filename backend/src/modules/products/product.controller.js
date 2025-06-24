@@ -35,8 +35,7 @@ export const createProduct = async (req, res) => {
       metaKeywords,
     } = req.body;
 
-    /* let userId = req.user._id; */
-    const userId = "60c72b2f9b1d8c4378f5a9e2"; // TEMP 4 testing
+    let userId = req.user._id;
 
     // Generate a URL-friendly slug here so the frontend doesn't have to <3
     let slug =

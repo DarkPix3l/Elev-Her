@@ -8,6 +8,7 @@ import {
   updateUser,
   deleteUser,
 } from "./users.controller.js";
+import { adminCreateUser, updateUserSchema } from "./users.validator.js";
 
 const router = express.Router();
 
@@ -15,13 +16,13 @@ router
   .route("/")
   //.all(AuthGuard, RoleGuard("admin"))
   .get(getUsers)
-  .post(createUser); //for user see "signup"
+  .post(validate(adminCreateUser), createUser); //for user see "signup"
 
 router
   .route("/:id")
   //.all(AuthGuard, validateObjectId)
   .get(getUser)
-  .put(updateUser)
+  .put(validate(updateUserSchema),updateUser)
   .delete(deleteUser);
 
 export default router;
