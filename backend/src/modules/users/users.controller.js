@@ -59,7 +59,7 @@ export const createUser = async (req, res) => {
       password: passwordHash,
       address: req.body.address,
       shippingAddress: req.body.shippingAddress,
-      role: req.body.role || "client",
+      role: req.body.role,
     });
 
     user = await user.save();
@@ -68,26 +68,18 @@ export const createUser = async (req, res) => {
       return res.status(500).send("The user could not be created!");
     }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_KEY, {
-      expiresIn: "1d",
-      algorithm: "HS384",
-    });
-
-    res.status(201).send({
+    res.status(201)
+    .send({
       message: "User created successfully!",
-      userId: user._id,
-      email: user.email,
-      role: user.role,
-      token: token,
     });
   } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).send("Server Error: Failed to create user.");
+    res.status(500).send("Server Error");
   }
 };
 
 //PUT
 export const updateUser = async (req, res) => {
+  try {
   const userExist = await User.findById(req.params.id);
   let newPassword;
   if (req.body.password) {
@@ -112,13 +104,24 @@ export const updateUser = async (req, res) => {
   if (!user) return res.status(400).send("the user cannot be created!");
 
   res.send(user);
+}catch{
+ // Generic server error
+  res.status(500).send("server.");
+}
 };
 
 //DELETE
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
 
+/*     if (req.user.role !== 'admin' && req.user._id.toString() !== req.params.id) {
+      return res.status(403).json({ // 403 Forbidden
+        success: false,
+        message: "Nice try"
+      });
+    } */
+    const user = await User.findByIdAndDelete(req.params.id);
+    
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -131,9 +134,10 @@ export const deleteUser = async (req, res) => {
       message: "The user has been deleted.",
     });
   } catch (error) {
+    console.error("Error deleting user:", error);
     return res.status(500).json({
       success: false,
-      error: error.message,
+      message: "call the dev"
     });
   }
 };
