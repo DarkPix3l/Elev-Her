@@ -129,7 +129,7 @@
     oklch(0.6249 0.2197 356.35),
     oklch(36.194% 0.03849 276.321) 60%
   );
-  --gradient-bg: linear-gradient();
+  --gradient-bg: linear-gradient(to bottom, oklch(36.194% 0.03849 276.321), oklch(0.4775 0.0947 273.46));
 
   --shadow-custom: 20px 0 30px 5px oklch(24.553% 0.02149 272.852);
 }
@@ -149,6 +149,7 @@
 
   h2 {
     font-size: 3rem;
+    font-weight: 600;
   }
 
   h1,
@@ -159,6 +160,10 @@
 
   p {
     color: var(--primary-txt);
+  }
+
+  footer p {
+    color:#252836;
   }
 
   .gen-section {
@@ -196,12 +201,12 @@
       -90deg,
       oklch(0.7579 0.098 274.14) 30%,
       oklch(75.795% 0.09811 274.142 / 0) 100%
-    );
-    transform: skewY(33deg) translateY(-80%);
-    box-shadow: var(--shadow-custom);
-    top: auto;
-    bottom: 0;
-    left: 0;
+      );
+      transform: skewY(33deg) translateY(-80%);
+      box-shadow: var(--shadow-custom);
+      top: auto;
+      bottom: 0;
+      left: 0;
   }
 }
 
@@ -222,4 +227,9 @@ originally intended for this purpose.
   .divider {
     @apply h-full flex flex-col-reverse items-center gap-y-20 xl:flex-row xl:justify-between;
   }
+
+  .temp_menu ul li {
+    @apply border-b-2 text-red-50 hover:text-[var(--accent-color)] hover:border-[var(--accent-color)] px-18 py-5 text-lg font-bold cursor-pointer;
+  }
 }
+

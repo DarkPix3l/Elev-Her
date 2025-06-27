@@ -1,3 +1,13 @@
-  .explore_section {
-    background: oklch(36.194% 0.03849 276.321);
-  }
+.nike_logo {
+  background-image: url("/Vector2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+}
+
+.explore_section {
+  background: var(--gradient-bg);
+}

@@ -1,0 +1,9 @@
+  .product_section {
+    background: oklch(36.194% 0.03849 276.321);
+  }
+
+  .product_message{
+    text-align: center;
+    max-width: 573px;
+  }
+

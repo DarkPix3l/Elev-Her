@@ -1,0 +1,65 @@
+/* import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"; */
+import ProductGrid from "../product-grid/ProductGrid";
+import Styles from "./ProductSection.module.css";
+
+export default function ProductSection() {
+  return (
+    <section className={`gen-section ${Styles.product_section}`}>
+      <div className=" stripe-inv"></div>
+      <div className="wrapper">
+        <div className="flex flex-col items-center h-full gap-12">
+          <div className={Styles.product_message}>
+            <h2 className="text-[var(--accent-color)] text-shadow-md ">
+              Explore the latest models
+            </h2>
+            <p className="">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et{" "}
+            </p>
+          </div>
+
+          {/* temp filter menu */}
+          <div className="temp_menu">
+            <ul className="flex p-7">
+              <li>hdfjhfg</li>
+              <li>dkhgjhd</li>
+              <li>dkhgjhd</li>
+              <li>dkhgjhd</li>
+            </ul>
+          </div>
+
+          <ProductGrid />
+
+          {/*           <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination> */}
+        </div>
+      </div>
+    </section>
+  );
+}
