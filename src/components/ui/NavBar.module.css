@@ -1,0 +1,7 @@
+.logo {
+  color: var(--accent-color);
+  font-size: 2rem;
+  font-weight: 700;
+  width: fit-content;
+}
+

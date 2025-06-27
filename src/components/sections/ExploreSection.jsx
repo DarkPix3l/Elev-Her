@@ -8,10 +8,11 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import ProductGrid from "../product-grid/ProductGrid";
+import Styles from "./ExploreSection.module.css"
 
 export default function ExploreSection() {
   return (
-    <section className="hero-section explore-section">
+    <section className={`gen-section ${Styles.explore_section}`}>
       <div className=" stripe-inv"></div>
       <div className="wrapper">
         <div className="flex flex-col items-center justify-center h-full ">

@@ -125,7 +125,7 @@
   --secondary-txt: oklch(0.8266 0 0);
 
   --gradient-brand: radial-gradient(
-    ellipse at center,
+    farthest-corner at center,
     oklch(0.6249 0.2197 356.35),
     oklch(36.194% 0.03849 276.321) 60%
   );
@@ -135,18 +135,15 @@
 }
 
 @layer base {
-/*   * {
-    @apply border-border outline-ring/50;
-  } */
-  /*  body {
-    @apply bg-background text-foreground;
-  } */
+  html {
+    scroll-behavior: smooth;
+  }
 
   h1 {
-    font-size: 4rem;
+    font-size: 2.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    line-height: 70px;
+    line-height: 50px;
     color: var(--primary-txt);
   }
 
@@ -164,24 +161,15 @@
     color: var(--primary-txt);
   }
 
-  .hero-section {
+  .gen-section {
     background: var(--gradient-brand);
     position: relative;
     z-index: 0;
-    height: 100vh;
+    min-height: 100vh; /* remember to do dvh later*/
+    padding: 5rem 0;
     overflow: clip;
   }
 
-  .explore-section {
-    background: oklch(36.194% 0.03849 276.321);
-  }
-
-  .logo {
-    color: var(--accent-color);
-    font-size: 2rem;
-    font-weight: 700;
-    width: fit-content;
-  }
   .stripe {
     position: absolute;
     z-index: -1;
@@ -215,10 +203,23 @@
     bottom: 0;
     left: 0;
   }
-
 }
+
+/* TEST
+These utility classes provide reusable layout and responsive patterns.
+I'm using them to keep inline styles cleaner, even though @apply isn't
+originally intended for this purpose.
+*/
 @layer utilities {
   .wrapper {
     @apply mx-auto w-[80%] max-w-[1440px];
+  }
+
+  .navbar nav > *:not(.show) {
+    @apply hidden md:flex;
+  }
+
+  .divider {
+    @apply h-full flex flex-col-reverse items-center gap-y-20 xl:flex-row xl:justify-between;
   }
 }
