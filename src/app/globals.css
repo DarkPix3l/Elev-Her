@@ -130,13 +130,14 @@
     oklch(36.194% 0.03849 276.321) 60%
   );
   --gradient-bg: linear-gradient(to bottom, oklch(36.194% 0.03849 276.321), oklch(0.4775 0.0947 273.46));
-
+ --gradient-bg-inv: linear-gradient(to top, oklch(36.194% 0.03849 276.321), oklch(0.4775 0.0947 273.46));
   --shadow-custom: 20px 0 30px 5px oklch(24.553% 0.02149 272.852);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-size: 14px;
   }
 
   h1 {
@@ -160,6 +161,7 @@
 
   p {
     color: var(--primary-txt);
+    font-size: 1rem;
   }
 
   footer p {
