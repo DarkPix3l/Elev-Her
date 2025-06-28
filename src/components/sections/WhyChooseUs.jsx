@@ -1,20 +1,15 @@
 import Image from "next/image";
-import Style from "./WhyChooseUs.module.css"
+import Style from "./WhyChooseUs.module.css";
 
 export default function WhyChooseUsSection() {
   return (
     <section className={Style.why_choose_us}>
-      {" "}
-      <div className="wrapper py-16">
-        <div className="w-full grid grid-cols-6 gap-2 h-[550px]">
-          {" "}
-          <div className="col-span-2 row-span-2 p-8">
-            {" "}
-            <h2 className="">
-              WHY CHOOSE{" "}
-              
-                <span className="text-[#E74694] text-7xl "> US</span>
-              
+      <div className="wrapper">
+
+        <div className="w-full flex flex-col md:grid md:grid-cols-6 gap-2 md:h-[550px]">
+          <div className={`${Style.whyChooseUs_message } md:col-span-7 md:p-8 py-8 lg:col-span-3 lg:row-span-2 `}>
+            <h2 className="font-extrabold text-white text-3xl xl:text-6xl">
+              WHY CHOOSE<span className="text-[#ff7c8e] text-6xl lg:text-8xl block"> US</span>
             </h2>
             <p className="text-base leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -24,8 +19,7 @@ export default function WhyChooseUsSection() {
             </p>
           </div>
           {/* Image: edge */}
-          <div className="col-span-1 row-span-2 col-start-4 overflow-hidden shadow-lg">
-            {" "}
+          <div className="col-span-1 row-span-1 col-start-4 md:col-span-2 md:col-start-3 lg:col-span-1 lg:row-span-2 overflow-hidden shadow-lg z-1">
             <Image
               src="/why_choose_us/edge-3528319_1920.jpg"
               alt="Person's legs"
@@ -36,7 +30,7 @@ export default function WhyChooseUsSection() {
             />
           </div>
           {/* Image: lots of shoes */}
-          <div className="col-span-2 row-span-2 col-start-5 overflow-hidden shadow-lg">
+          <div className="col-span-2 row-span-2 md:col-start-5 overflow-hidden shadow-lg z-1">
             {" "}
             <Image
               src="/why_choose_us/school-aden-2284257_1920.jpg"
@@ -48,7 +42,7 @@ export default function WhyChooseUsSection() {
             />
           </div>
           {/* Image: Sneakers on street*/}
-          <div className="col-span-2 row-span-2 col-start-2 col-end-5 overflow-hidden shadow-lg">
+          <div className="col-span-2 row-span-2 md:col-span-4 col-start-2 md:col-end-5 overflow-hidden shadow-lg z-1">
             <Image
               src="/why_choose_us/nike-5126389_1280.jpg"
               alt="Sneakers on street"
@@ -59,7 +53,7 @@ export default function WhyChooseUsSection() {
             />
           </div>
           {/* Image: Kitty cat */}
-          <div className="col-span-1 row-span-1 col-start-5 overflow-hidden shadow-lg">
+          <div className="col-span-1 row-span-1  md:row-span-1 col-start-5 overflow-hidden shadow-lg z-1">
             <Image
               src="/why_choose_us/cat-2083492_1920.jpg"
               alt="Cat"

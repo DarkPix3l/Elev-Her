@@ -20,7 +20,7 @@ export default function HeroSection() {
                 legacy. Play the future.
               </p>
             </div>
-            <div className="msg-buttons flex flex-col gap-8 xl:flex-row">
+            <div className="msg-buttons flex flex-col gap-8 lg:flex-row">
               <Button variant="accent" size="lg">
                 <Link href="/">Buy Now</Link>
               </Button>

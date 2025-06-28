@@ -27,8 +27,8 @@ export default function ProductSection() {
           </div>
 
           {/* temp filter menu */}
-          <div className="temp_menu">
-            <ul className="flex p-7">
+          <div className="temp_menu  overflow-x-scroll max-w-full ">
+            <ul className="flex p-4 lg:p-7">
               <li>hdfjhfg</li>
               <li>dkhgjhd</li>
               <li>dkhgjhd</li>

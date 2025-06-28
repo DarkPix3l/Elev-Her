@@ -227,7 +227,7 @@ originally intended for this purpose.
   }
 
   .divider {
-    @apply h-full flex flex-col-reverse items-center gap-y-20 xl:flex-row xl:justify-between;
+    @apply h-full flex flex-col-reverse items-center gap-y-20 lg:flex-row lg:justify-between;
   }
 
   .temp_menu ul li {
