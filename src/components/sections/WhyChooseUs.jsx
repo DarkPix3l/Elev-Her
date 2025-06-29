@@ -3,7 +3,7 @@ import Style from "./WhyChooseUs.module.css";
 
 export default function WhyChooseUsSection() {
   return (
-    <section className={Style.why_choose_us}>
+    <section id="choose-us" className={Style.why_choose_us}>
       <div className="wrapper">
 
         <div className="w-full flex flex-col md:grid md:grid-cols-6 gap-2 md:h-[550px]">

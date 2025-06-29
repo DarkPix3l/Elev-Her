@@ -3,7 +3,7 @@ import Style from "./ExploreSection.module.css";
 
 export default function ExploreSection() {
   return (
-    <section className={Style.explore_section}>
+    <section id="explore" className={Style.explore_section}>
       <div className={Style.nike_logo}></div>
 
       <div className="wrapper grid grid-rows-1 md:grid-rows-2  align-baseline">

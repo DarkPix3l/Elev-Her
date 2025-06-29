@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="gen-section hero-section flex items-start md:items-center">
+    <section id="hero" className="gen-section hero-section flex items-start md:items-center ">
       <div className="stripe"></div>
 
       <div className="wrapper">
@@ -29,14 +29,27 @@ export default function HeroSection() {
               </Button>
             </div>
           </div>
-          <Image
+
+          {/* video idea */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="w-[60%] h-auto pointer-events-none select-none mix-blend-hard-light filter brightness-110"
+          >
+            <source src="/silver.webm" type="video/webm" />
+          </video>
+
+          {/*           <Image
             src="/jordan6-retro_reflections-of-a-champion_silver.png"
             width={900}
             height={900}
             sizes="(max-width: 768px) 100vw, (max-width: 900px) 50vw, 33vw"
             alt="jordan 6 retro reflections of a champion model"
             className="-rotate-[33deg] drop-shadow-[20px_20px_10px_rgba(0,0,0,0.7)] -translate-x-10"
-          />
+          /> */}
         </div>
       </div>
     </section>

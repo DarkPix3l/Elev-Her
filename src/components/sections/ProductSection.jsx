@@ -12,7 +12,7 @@ import Styles from "./ProductSection.module.css";
 
 export default function ProductSection() {
   return (
-    <section className={`gen-section ${Styles.product_section}`}>
+    <section id="products" className={`gen-section ${Styles.product_section}`}>
       <div className=" stripe-inv"></div>
       <div className="wrapper">
         <div className="flex flex-col items-center h-full gap-12">
@@ -27,7 +27,7 @@ export default function ProductSection() {
           </div>
 
           {/* temp filter menu */}
-          <div className="temp_menu  overflow-x-scroll max-w-full ">
+          <div className="temp_menu  overflow-x-scroll lg:overflow-x-visible max-w-full ">
             <ul className="flex p-4 lg:p-7">
               <li>hdfjhfg</li>
               <li>dkhgjhd</li>

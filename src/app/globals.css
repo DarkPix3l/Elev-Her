@@ -83,7 +83,7 @@
 .dark {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
+  --card: oklch(20.841% 0.04169 266.371 / 0.678);
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
@@ -129,8 +129,16 @@
     oklch(0.6249 0.2197 356.35),
     oklch(36.194% 0.03849 276.321) 60%
   );
-  --gradient-bg: linear-gradient(to bottom, oklch(36.194% 0.03849 276.321), oklch(0.4775 0.0947 273.46));
- --gradient-bg-inv: linear-gradient(to top, oklch(36.194% 0.03849 276.321), oklch(0.4775 0.0947 273.46));
+  --gradient-bg: linear-gradient(
+    to bottom,
+    oklch(36.194% 0.03849 276.321),
+    oklch(0.4775 0.0947 273.46)
+  );
+  --gradient-bg-inv: linear-gradient(
+    to top,
+    oklch(36.194% 0.03849 276.321),
+    oklch(0.4775 0.0947 273.46)
+  );
   --shadow-custom: 20px 0 30px 5px oklch(24.553% 0.02149 272.852);
 }
 
@@ -151,6 +159,7 @@
   h2 {
     font-size: 3rem;
     font-weight: 600;
+    color: var(--primary-txt);
   }
 
   h1,
@@ -165,14 +174,13 @@
   }
 
   footer p {
-    color:#252836;
+    color: #252836;
   }
 
   .gen-section {
     background: var(--gradient-brand);
     position: relative;
     z-index: 0;
-    min-height: 100vh; /* remember to do dvh later*/
     padding: 5rem 0;
     overflow: clip;
   }
@@ -191,7 +199,7 @@
 
     box-shadow: var(--shadow-custom);
     top: 0;
-    left: 0;
+    right: 0;
   }
 
   .stripe-inv {
@@ -203,15 +211,53 @@
       -90deg,
       oklch(0.7579 0.098 274.14) 30%,
       oklch(75.795% 0.09811 274.142 / 0) 100%
-      );
-      transform: skewY(33deg) translateY(-80%);
-      box-shadow: var(--shadow-custom);
-      top: auto;
-      bottom: 0;
-      left: 0;
+    );
+    transform: skewY(33deg) translateY(-80%);
+    box-shadow: var(--shadow-custom);
+    top: auto;
+    bottom: 0;
+    left: 0;
   }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out ;
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+.animate-fade-out {
+  animation: fadeOut 0.3s ease-in;
 }
 
+@keyframes slideUp {
+  from { transform: translateY(20px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes slideDown {
+  from { transform: translateY(0) scale(1); opacity: 1; }
+  to { transform: translateY(20px) scale(0.95); opacity: 0; }
+}
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out ;
+}
+.animate-slide-down {
+  animation: slideDown 0.3s ease-in ;
+}
+}
 /* TEST
 These utility classes provide reusable layout and responsive patterns.
 I'm using them to keep inline styles cleaner, even though @apply isn't
@@ -226,6 +272,10 @@ originally intended for this purpose.
     @apply hidden md:flex;
   }
 
+  .scroll-links a{
+    @apply text-primary hover:text-[var(--accent-color)] p-5 block font-medium
+  }
+
   .divider {
     @apply h-full flex flex-col-reverse items-center gap-y-20 lg:flex-row lg:justify-between;
   }
@@ -233,5 +283,8 @@ originally intended for this purpose.
   .temp_menu ul li {
     @apply border-b-2 text-red-50 hover:text-[var(--accent-color)] hover:border-[var(--accent-color)] px-18 py-5 text-lg font-bold cursor-pointer;
   }
-}
 
+   .gen-section {
+    @apply md:min-h-screen;
+  }
+}
