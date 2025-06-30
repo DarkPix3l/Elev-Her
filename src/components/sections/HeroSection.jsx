@@ -14,7 +14,7 @@ export default function HeroSection() {
 
             <div>
               {" "}
-              <h1 className="mb-3">Fly Higher, Every Step!</h1>
+              <h1 className="mb-3 lg:text-7xl">Fly Higher, Every Step!</h1>
               <p>
                 Step into the legend. Own the court, own the streets. Wear the
                 legacy. Play the future.
@@ -25,7 +25,7 @@ export default function HeroSection() {
                 <Link href="/">Buy Now</Link>
               </Button>
               <Button variant="default" size="lg">
-                <Link href="/">See all models</Link>
+                <Link href="#products">See all models</Link>
               </Button>
             </div>
           </div>
@@ -37,7 +37,7 @@ export default function HeroSection() {
             loop
             playsInline
             preload="auto"
-            className="w-[60%] h-auto pointer-events-none select-none mix-blend-hard-light filter brightness-110"
+            className="w-[100%] lg:w-[60%] h-auto select-none mix-blend-hard-light filter brightness-110"
           >
             <source src="/silver.webm" type="video/webm" />
           </video>

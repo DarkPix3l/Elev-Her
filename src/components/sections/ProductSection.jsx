@@ -17,7 +17,7 @@ export default function ProductSection() {
       <div className="wrapper">
         <div className="flex flex-col items-center h-full gap-12">
           <div className={Styles.product_message}>
-            <h2 className="text-[var(--accent-color)] text-shadow-md ">
+            <h2 className="text-[var(--accent-color)] text-shadow-md lg:text-[3rem] m-auto">
               Explore the latest models
             </h2>
             <p className="">
