@@ -9,7 +9,7 @@ import {
 import validateObjectId from "../../middlewares/idValidator.js";
 import { AuthGuard, RoleGuard } from "../../middlewares/auth.middlewares.js";
 import {createProductSchema, updateProductSchema} from "./products.validator.js";
-
+import validate from "../../middlewares/p.validator.middleware.js";
 
 
 const router = express.Router();
@@ -17,7 +17,8 @@ const router = express.Router();
 router
   .route("/")
   .get(getProducts)
-  .post(AuthGuard, RoleGuard("admin"), validate(createProductSchema), createProduct);
+  //.post(AuthGuard, RoleGuard("admin"), validate(createProductSchema), createProduct);
+  .post(validate(createProductSchema), createProduct);
 
 router.get("/:slug", getProduct);
 

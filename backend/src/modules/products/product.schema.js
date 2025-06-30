@@ -49,8 +49,8 @@ const productSchema = new mongoose.Schema(
         type: String,
       },
     ],
-    size: {
-      type: Number, // change this to [Number] for multiple sizes
+    sizes: {
+      type: [Number],
       required: true,
     },
     color: [

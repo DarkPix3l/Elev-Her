@@ -9,6 +9,7 @@ import {
   deleteUser,
 } from "./users.controller.js";
 import { adminCreateUser, updateUserSchema } from "./users.validator.js";
+import validate from "../../middlewares/p.validator.middleware.js";
 
 const router = express.Router();
 

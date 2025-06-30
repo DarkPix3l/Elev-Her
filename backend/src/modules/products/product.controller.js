@@ -27,7 +27,7 @@ export const createProduct = async (req, res) => {
       quantity,
       mainImage,
       images,
-      size,
+      sizes,
       color,
       categories,
       metaTitle,
@@ -35,7 +35,8 @@ export const createProduct = async (req, res) => {
       metaKeywords,
     } = req.body;
 
-    let userId = req.user._id;
+    /* let userId = req.user._id; */
+    let fixedUserId = "685947d04abbb819bccdddc2";
 
     // Generate a URL-friendly slug here so the frontend doesn't have to <3
     let slug =
@@ -51,10 +52,10 @@ export const createProduct = async (req, res) => {
       quantity,
       mainImage,
       images,
-      size,
+      sizes,
       color,
       categories,
-      user: userId,
+      user: fixedUserId,
       metaTitle,
       metaDescription,
       metaKeywords,
