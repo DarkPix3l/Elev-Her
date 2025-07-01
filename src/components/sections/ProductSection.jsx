@@ -7,10 +7,29 @@
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"; */
+"use client"
+
 import ProductGrid from "../product-grid/ProductGrid";
 import Styles from "./ProductSection.module.css";
+import { useQuery } from '@tanstack/react-query';
+import { fetchProducts } from '@/services/product.apis';
 
 export default function ProductSection() {
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
+
+  if (isLoading) {
+    return <p>Loading products...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+
   return (
     <section id="products" className={`gen-section ${Styles.product_section}`}>
       <div className=" stripe-inv"></div>
@@ -27,16 +46,16 @@ export default function ProductSection() {
           </div>
 
           {/* temp filter menu */}
-          <div className="temp_menu  overflow-x-scroll lg:overflow-x-visible max-w-full ">
+          <div className="temp_menu overflow-x-scroll lg:overflow-x-visible max-w-full ">
             <ul className="flex p-4 lg:p-7">
-              <li>hdfjhfg</li>
-              <li>dkhgjhd</li>
-              <li>dkhgjhd</li>
-              <li>dkhgjhd</li>
+              <li>Menu item 1</li>
+              <li>Menu item 2</li>
+              <li>Menu item 3</li>
+              <li>Menu item 4</li>
             </ul>
           </div>
 
-          <ProductGrid />
+          <ProductGrid products={data} />;
 
           {/*           <Pagination>
             <PaginationContent>
