@@ -3,7 +3,6 @@ import User from "../users/user.schema.js";
 import jwt from "jsonwebtoken";
 import { JWT_KEY } from "../../config/variable.js";
 
-
 export const signup = async (req, res) => {
   try {
     const { username, email, password, birthDate } = req.body;
@@ -29,12 +28,16 @@ export const signup = async (req, res) => {
       birthDate,
     });
     //response.send(user);
-    res.status(201).send({
-      message: "User created successfully!", // => Can use in frontend for toast msg
+    res.status(201).json({
+      success: true,
+      message: "User created successfully!",
     });
   } catch (error) {
     console.log(error.message);
-    response.status(500).send("Server Error");
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
   }
 };
 
@@ -44,12 +47,12 @@ export const login = async (req, res) => {
 
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).send("User doesn't have an account");
+      return res.status(400).json({ error: "User doesn't have an account" });
     }
 
     let isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(401).send("Invalid credentials");
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
     let id = user._id;
@@ -57,10 +60,10 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.send({
-      token,
+    res.status(200).json({
+      success: true,
       message: "Logged in successfully",
-	  //if frontend needs them
+      token,
       user: {
         id: user._id,
         name: user.name,
@@ -69,6 +72,8 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).send("An unexpected error occurred during login.");
+    res
+      .status(500)
+      .json({ error: "An unexpected error occurred during login." });
   }
 };
