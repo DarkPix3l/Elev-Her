@@ -145,7 +145,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-margin-top: 600px;
     font-size: 14px;
+  }
+
+  body{
+    overflow-x: clip;
   }
 
   h1 {
@@ -177,16 +182,17 @@
     color: #252836;
   }
 
+  section {
+    padding: 5rem 0;
+  }
+
   .gen-section {
     background: var(--gradient-brand);
-    position: relative;
-    z-index: 0;
-    padding: 5rem 0;
-    overflow: clip;
+    overflow: hidden;
   }
 
   .stripe {
-    position: absolute;
+    /*  position: absolute; */
     z-index: -1;
     width: 100%;
     height: 600px;
@@ -196,14 +202,12 @@
       oklch(75.795% 0.09811 274.142 / 0) 100%
     );
     transform: skewY(-33deg) translateY(80%);
-
+    transform-origin: top left;
     box-shadow: var(--shadow-custom);
-    top: 0;
-    right: 0;
   }
 
   .stripe-inv {
-    position: absolute;
+    /* position: absolute; */
     z-index: -1;
     width: 100%;
     height: 600px;
@@ -213,10 +217,8 @@
       oklch(75.795% 0.09811 274.142 / 0) 100%
     );
     transform: skewY(33deg) translateY(-80%);
+    transform-origin: bottom left;
     box-shadow: var(--shadow-custom);
-    top: auto;
-    bottom: 0;
-    left: 0;
   }
 
   @keyframes fadeIn {
@@ -228,7 +230,7 @@
     }
   }
   .animate-fade-in {
-    animation: fadeIn 0.3s ease-out ;
+    animation: fadeIn 0.3s ease-out forwards;
   }
 
   @keyframes fadeOut {
@@ -239,24 +241,36 @@
       opacity: 0;
     }
   }
-.animate-fade-out {
-  animation: fadeOut 0.3s ease-in;
-}
+  .animate-fade-out {
+    animation: fadeOut 0.3s ease-in forwards;
+  }
 
-@keyframes slideUp {
-  from { transform: translateY(20px) scale(0.95); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
-}
-@keyframes slideDown {
-  from { transform: translateY(0) scale(1); opacity: 1; }
-  to { transform: translateY(20px) scale(0.95); opacity: 0; }
-}
-.animate-slide-up {
-  animation: slideUp 0.3s ease-out ;
-}
-.animate-slide-down {
-  animation: slideDown 0.3s ease-in ;
-}
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes slideDown {
+    from {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+    }
+  }
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-in forwards;
+  }
 }
 /* TEST
 These utility classes provide reusable layout and responsive patterns.
@@ -272,8 +286,8 @@ originally intended for this purpose.
     @apply hidden md:flex;
   }
 
-  .scroll-links a{
-    @apply text-primary hover:text-[var(--accent-color)] p-5 block font-medium
+  .scroll-links a {
+    @apply text-primary hover:text-[var(--accent-color)] p-5 block font-medium;
   }
 
   .divider {
@@ -284,7 +298,7 @@ originally intended for this purpose.
     @apply border-b-2 text-red-50 hover:text-[var(--accent-color)] hover:border-[var(--accent-color)] px-18 py-5 text-lg font-bold cursor-pointer;
   }
 
-   .gen-section {
+  .gen-section {
     @apply md:min-h-screen;
   }
 }

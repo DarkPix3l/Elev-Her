@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#A7A1D5] py-12">
       <div className='wrapper'>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_3fr_1fr_1fr_1fr] gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_3fr_1fr_1fr_1fr] gap-8">
 
           {/* First Column: Company Info */}
           <div>
@@ -67,7 +67,7 @@ export default function Footer() {
         </div>
 
         {/* Footer Bottom Section */}
-        <div className="max-w-7xl mx-auto border-t border-gray-600 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm">
+        <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm">
           <p>&copy; {new Date().getFullYear()} Company Name. All rights reserved</p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
             <Link href="/privacy-policy" className="hover:underline">Privacy & Policy</Link>

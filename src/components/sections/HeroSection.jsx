@@ -4,12 +4,13 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
+    <>
     <section id="hero" className="gen-section hero-section flex items-start md:items-center ">
-      <div className="stripe"></div>
-
+       
+      {/* <div className="stripe"></div> */}
       <div className="wrapper">
         <div className="divider">
-          <div className="hero-message max-w-[500px] flex flex-col gap-8">
+          <div className="hero-message max-w-[500px] flex flex-col gap-8 z-1">
             <p>Neque porro quisquam est qui dolorem ipsum quia</p>
 
             <div>
@@ -37,7 +38,7 @@ export default function HeroSection() {
             loop
             playsInline
             preload="auto"
-            className="w-[100%] lg:w-[60%] h-auto select-none mix-blend-hard-light filter brightness-110"
+            className=" z-5 w-[100%] lg:w-[60%] h-auto select-none mix-blend-hard-light filter brightness-110"
           >
             <source src="/silver.webm" type="video/webm" />
           </video>
@@ -53,5 +54,7 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
+
+  </>
   );
 }
