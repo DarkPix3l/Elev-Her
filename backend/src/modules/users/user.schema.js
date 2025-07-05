@@ -5,7 +5,12 @@ const userSchema = new mongoose.Schema(
     name: { type: String, default: "" },
     surname: { type: String, default: "" },
     username: { type: String, default: "", required: true },
-    birthDate: { type: String, required: true},
+    birthDate: {
+      type: String,
+      required: function () {
+        return !this.googleId;
+      },
+    },
     email: {
       type: String,
       required: true,
@@ -13,8 +18,15 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return !this.googleId;
+      },
     },
+    googleId: {
+      type: String,
+      default: null,
+    },
+    avatar: { type: String, default: "" },
     address: {
       street: { type: String, default: "" },
       apartment: { type: String, default: "" },
@@ -36,11 +48,11 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ['client', 'admin'],
-      default: 'client',
-  },
-    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+      enum: ["client", "admin"],
+      default: "client",
+    },
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true }
 );
@@ -49,12 +61,12 @@ const userSchema = new mongoose.Schema(
 // representation of the MongoDB '_id', which is typically an ObjectId.
 // It's useful for frontends and APIs that prefer 'id' over '_id'.
 
-userSchema.virtual('id').get(function () {
-    return this._id.toHexString();
+userSchema.virtual("id").get(function () {
+  return this._id.toHexString();
 });
 
-userSchema.set('toJSON', {
-    virtuals: true,
+userSchema.set("toJSON", {
+  virtuals: true,
 });
 
 export default mongoose.model("User", userSchema);
