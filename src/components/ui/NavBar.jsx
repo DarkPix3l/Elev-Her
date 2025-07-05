@@ -8,25 +8,40 @@ import { Button } from "./Button.jsx";
 import Style from "./NavBar.module.css";
 import { useState } from "react";
 import { CardDemo } from "./CardDemo.jsx";
-import Hmenu from "./Hmenu.jsx"; 
-import { useSidenav } from '@/hooks/useSidenav.js';
+import Hmenu from "./Hmenu.jsx";
+import { useSidenav } from "@/hooks/useSidenav.js";
+import { useAuthModalStore } from "@/store/authModalStore.js";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react"
 
 export default function Navbar() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+ const { data: session, status } = useSession()
+console.log({session, status});
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
-  const { isOpen, toggleSidenav, closeSidenav, sidenavRef, triggerRef } = useSidenav();
+
+  const { openModal, closeModal } = useAuthModalStore();
+
+  const {
+    isOpen: isSidenavOpen,
+    toggleSidenav,
+    closeSidenav: closeHmenu,
+    sidenavRef,
+    triggerRef,
+  } = useSidenav();
+
+  const router = useRouter();
 
   const handleAuthSuccess = (name) => {
     setIsAuthenticated(true);
     setUserName(name);
-    setIsModalOpen(false);
+    closeModal();
+    router.push("/dashboard");
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-const currentPage = "some-page";
+  const currentPage = "some-page";
+
   return (
     <div className="navbar bg-[var(--navbar-bg)] p-2 shadow-[var(--shadow-custom)] z-10 fixed w-full">
       <div className="wrapper flex justify-between">
@@ -38,7 +53,7 @@ const currentPage = "some-page";
           {!isAuthenticated && (
             <>
               <Link href="/">Register</Link>
-              <Button variant="accent" size="sm" onClick={() => setIsModalOpen(true)}>
+              <Button variant="accent" size="sm" onClick={openModal}>
                 Login
               </Button>
             </>
@@ -54,23 +69,13 @@ const currentPage = "some-page";
         </nav>
       </div>
 
-      {/* Show login/register modal */}
-      {!isAuthenticated && (
-       
-          <CardDemo
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-            onAuthSuccess={handleAuthSuccess}
-          />
-        
-      )}
+      <CardDemo onAuthSuccess={handleAuthSuccess} />
 
-      {/* Render the Hmenu (Sidenav) component, passing the necessary props from the hook */}
       <Hmenu
         page={currentPage}
-        isOpen={isOpen}
+        isOpen={isSidenavOpen}
         sidenavRef={sidenavRef}
-        closeSidenav={closeSidenav}
+        closeSidenav={closeHmenu}
       />
     </div>
   );

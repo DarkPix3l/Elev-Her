@@ -7,25 +7,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: {},
-        password: {},
+        email: { type: "email", label: "Email" },
+        password: { type: "password", label: "Password" },
       },
 
       authorize: async (credentials) => {
-        console.log("[authorize] credentials received:", credentials);
-
+        let { email, password } = credentials;
+        //console.log("[authorize] credentials received:", credentials);
         try {
-          let response = await fetch(
-            "http://localhost:5000/api/v1/auth/login",
-            {
-              method: "POST",
+          let response = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
+            method: "POST",
 
-              body: JSON.stringify({ email, password }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+            body: JSON.stringify({ email, password }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
 
           let data = await response.json();
 
@@ -33,11 +30,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return data;
         } catch (error) {
+          console.log(error.mesage);
           throw new Error(error.message);
         }
       },
     }),
-    Google,
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "select_account",
+        },
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
@@ -62,8 +68,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.accessToken = user.token;
       }
+
       if (account?.provider === "google") {
-        const res = await fetch("http://localhost:5001/auth/google", {
+        const res = await fetch(`${process.env.API_BASE_URL}/auth/google`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id_token: account.id_token }),
