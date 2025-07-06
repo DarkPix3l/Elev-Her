@@ -51,10 +51,10 @@ export default function Hmenu({ page, isOpen, sidenavRef, closeSidenav }) {
           </button></div>
         <div>__________________</div>
         <div className="scroll-links">
-        <Link href="#hero">Hero</Link>
-        <Link href="#products">Products</Link>
-        <Link href="#explore">Explore</Link>
-        <Link href="#choose-us">Why Us</Link>
+        <Link href="#hero" onClick={closeSidenav}>Hero</Link>
+        <Link href="#products" onClick={closeSidenav}>Products</Link>
+        <Link href="#explore" onClick={closeSidenav}>Explore</Link>
+        <Link href="#choose-us" onClick={closeSidenav}>Why Us</Link>
         </div>
         </div>
 
