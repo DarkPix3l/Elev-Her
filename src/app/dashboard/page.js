@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProductGrid from "@/components/UserDashboard/productGrd2";
+import ProductGrid from "@/components/UserDashboard/productGrd2"; // expects products prop
 import ShoppingCartPanel from "@/components/UserDashboard/ShoppingCartPanel";
 import OrderHistory from "@/components/UserDashboard/OrderHistory";
 import UserProfile from "@/components/UserDashboard/UserProfile";
@@ -15,74 +15,62 @@ import useCartStore from "@/store/useCartStore";
 import Navbar from "@/components/ui/NavBar";
 import { fetchProducts } from '@/services/product.apis';
 
-
-
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("products");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const [shoes, setShoes] = useState([]); // State to hold fetched shoe data
-  const [loading, setLoading] = useState(true); // State to manage loading status
-  const [error, setError] = useState(null); // State to manage errors
+  const [products, setProducts] = useState([]); // rename shoes -> products for consistency
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const { cartItems, addToCart, removeFromCart, updateQuantity } =
-    useCartStore();
+  const { cartItems, addToCart, removeFromCart, updateQuantity } = useCartStore();
 
   const categories = ["All", "inclusive-sizing", "model", "cut", "Skate"];
 
-  const filteredShoes = shoes.filter((shoe) => {
+  // Filter products by search and category
+  const filteredProducts = products.filter((product) => {
     const matchesSearch =
-      shoe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      shoe.summary.toLowerCase().includes(searchQuery.toLowerCase());
+      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.summary.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || shoe.category === selectedCategory;
+      selectedCategory === "All" || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const cartItemsCount = cartItems.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
+  // Count total items in cart
+  const cartItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-useEffect(() => {
-  const fetchShoes = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchProducts();
-      setShoes(data);
-    } catch (e) {
-      setError(e);
-      console.error("Failed to fetch shoes:", e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchAllProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchProducts();
+        setProducts(data);
+        setError(null);
+      } catch (e) {
+        setError(e);
+        console.error("Failed to fetch products:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchShoes();
-}, []);
-
-{loading ? (
-  <div className="text-center text-muted">Loading shoes...</div>
-) : error ? (
-  <div className="text-center text-red-500">Error loading shoes.</div>
-) : (
-  <ProductGrid shoes={filteredShoes} onAddToCart={addToCart} />
-)}
+    fetchAllProducts();
+  }, []);
 
   return (
     <div className="h-fit min-h-screen [background-image:radial-gradient(farthest-corner_at_center,_oklch(0.6249_0.2197_356.35),_oklch(36.194%_0.03849_276.321)_60%)]">
       <Navbar />
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-2 overflow-hidden">
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
           className="space-y-6 mt-25"
         >
-          <TabsList className="flex w-full relative  bg-gray-500/50 shadow-[20px_0_30px_5px_rgb(47,47,80)] ">
+          <TabsList className="flex w-full relative bg-gray-500/50 shadow-[20px_0_30px_5px_rgb(47,47,80)]">
             <TabsTrigger value="products" className="flex items-center gap-2">
               <Package className="h-4 w-4" />
               Products
@@ -102,7 +90,6 @@ useEffect(() => {
           </TabsList>
 
           <TabsContent value="products" className="space-y-6">
-            {/* Search and Filter */}
             <Card>
               <CardHeader>
                 <CardTitle>Browse Shoes</CardTitle>
@@ -134,7 +121,14 @@ useEffect(() => {
                   </div>
                 </div>
 
-                <ProductGrid shoes={filteredShoes} onAddToCart={addToCart} />
+                {/* Loading, Error, or ProductGrid */}
+                {loading ? (
+                  <div className="text-center text-muted">Loading shoes...</div>
+                ) : error ? (
+                  <div className="text-center text-red-500">Error loading shoes.</div>
+                ) : (
+                  <ProductGrid products={filteredProducts} onAddToCart={addToCart} />
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -166,7 +160,6 @@ useEffect(() => {
         </Tabs>
       </main>
 
-      {/* Shopping Cart Panel */}
       <ShoppingCartPanel
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}

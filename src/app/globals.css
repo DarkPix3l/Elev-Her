@@ -151,6 +151,7 @@
 
   body{
     overflow-x: clip;
+    width: 100vw; /* always a good practice, but this time especially for preventing scroll locking + scrollbar shift combo of Radix UI’s Dialog. */
   }
 
   h1 {

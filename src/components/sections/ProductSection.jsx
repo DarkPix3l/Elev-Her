@@ -11,6 +11,7 @@
 import ProductGrid from "../product-grid/ProductGrid";
 import Styles from "./ProductSection.module.css";
 
+
 export default function ProductSection() {
 
   return (
@@ -38,7 +39,7 @@ export default function ProductSection() {
             </ul>
           </div>
 
-          <ProductGrid />;
+          <ProductGrid  />
 
           {/*           <Pagination>
             <PaginationContent>

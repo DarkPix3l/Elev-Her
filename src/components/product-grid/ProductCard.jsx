@@ -1,9 +1,31 @@
+"use client";
 import Image from "next/image";
-import React from "react";
 import StarRating from "@/components/ui/StarRating";
 import { AddToCartButton } from "../ui/AddToCartButton";
+import ProductDialogContent from "../ui/product_dialog/ProductDialogContent";
+import { Dialog, DialogTrigger } from "@/components/ui/product_dialog/dialog";
+import useProductDialogStore from "@/store/useProductDialogStore";
+import useCartStore from "@/store/useCartStore";
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({ product }) {
+  const {
+    selectedProduct,
+    selectedSize,
+    selectedColor,
+    setSelectedProduct,
+    setSelectedSize,
+    setSelectedColor,
+    reset,
+  } = useProductDialogStore();
+
+    const addToCart = useCartStore((state) => state.addToCart);
+
+  const handleAddToCart = () => {
+    if (selectedProduct && selectedSize && selectedColor) {
+      addToCart(selectedProduct, selectedSize, selectedColor);
+      reset();
+    }
+  };
   return (
     <div className="relative min-w-[15rem] min-h-[15rem] grid grid-rows-[1.5fr_2fr]">
       <Image
@@ -25,10 +47,25 @@ export default function ProductCard({ product, onAddToCart }) {
         <p className="text-black self-center justify-self-end font-bold">
           {product.price} €
         </p>
-        <AddToCartButton
-        /*  product={product}
-  onAddToCart={handleAddToCart} */
-        />
+        {
+          <Dialog modal={true}>
+            <DialogTrigger asChild>
+              <AddToCartButton
+                disabled={!product.inStock}
+                onClick={() => setSelectedProduct(product)}
+              />
+
+            </DialogTrigger>
+            <ProductDialogContent
+              product={product}
+              selectedSize={selectedSize}
+              selectedColor={selectedColor}
+              setSelectedSize={setSelectedSize}
+              setSelectedColor={setSelectedColor}
+              handleAddToCart={handleAddToCart}
+            />
+          </Dialog>
+        }
       </div>
     </div>
   );

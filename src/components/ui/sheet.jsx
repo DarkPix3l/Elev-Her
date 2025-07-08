@@ -48,7 +48,7 @@ function SheetOverlay({
 function SheetContent({
   className,
   children,
-  side = "left",
+  side = "right",
   ...props
 }) {
   return (
