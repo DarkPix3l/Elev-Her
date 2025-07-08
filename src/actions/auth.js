@@ -1,26 +1,29 @@
-"use server";
-
-import { auth, signIn, signOut } from "@/app/auth";
+import { auth, signOut } from "@/app/auth";
+import { signIn } from "next-auth/react";
 import { z } from "zod";
 import { loginSchema, signupSchema } from "@/actions/authSchema";
 
-export async function login(formData) {
+export async function login(data) {
   try {
-    const data = Object.fromEntries(formData);
     const validatedData = loginSchema.parse(data);
 
-    await signIn("credentials", {
+    const res = await signIn("credentials", {
       email: validatedData.email,
       password: validatedData.password,
+      redirect: false, // Important: prevent auto-redirect
     });
+
+    if (res?.error) {
+      throw new Error(res.error);
+    }
+
     return { success: true };
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { success: false, errors: error.flatten().fieldErrors };
     }
-    const errorMessage =
-      error.message || "An unexpected error occurred during login.";
-    return { success: false, error: errorMessage };
+  
+    return { success: false, error: error.message };
   }
 }
 
@@ -54,7 +57,7 @@ export async function signup(formData) {
     if (error instanceof z.ZodError) {
       return { success: false, errors: error.flatten().fieldErrors };
     }
-    console.error("Signup server action error:", error);
+   
     return {
       success: false,
       error:
@@ -74,6 +77,5 @@ export const logout = async () => {
 
 export const isAuthenticated = async () => {
   let session = await auth();
-  console.log(session);
   return session?.user;
 };

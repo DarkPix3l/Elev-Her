@@ -13,7 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       authorize: async (credentials) => {
         let { email, password } = credentials;
-        //console.log("[authorize] credentials received:", credentials);
+  
         try {
           let response = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
             method: "POST",
@@ -30,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return data;
         } catch (error) {
-          console.log(error.mesage);
+        
           throw new Error(error.message);
         }
       },

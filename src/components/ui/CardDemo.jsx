@@ -16,14 +16,9 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, signupSchema } from "@/actions/authSchema";
+import { login, signup, loginWithGoogle } from "@/actions/auth";
+import { useAuthModalStore } from "@/store/authModalStore";
 
-import {
-  login,
-  signup,
-  loginWithGoogle,
-} from "@/actions/auth";
-
-import { useAuthModalStore } from '@/store/authModalStore';
 
 export function CardDemo({ onAuthSuccess }) {
   const [isLoginView, setIsLoginView] = useState(true);
@@ -54,37 +49,28 @@ export function CardDemo({ onAuthSuccess }) {
 
   if (!shouldRender) return null;
 
-  const onSubmit = async (data) => {
-    try {
-      const formData = new FormData();
-      formData.append("email", data.email);
-      formData.append("password", data.password);
-
-      let res;
-      if (isLoginView) {
-        res = await login(formData);
-      } else {
-        res = await signup(formData);
-      }
-      
-console.log({res});
-
-      if (res?.success) {
-        //Getting the welcome messge from the
-        onAuthSuccess?.(data.email.split("@")[0]);
-       
-        if (isLoginView) {
-          closeModal();
-        } else {
-          alert(res.message || "Registration successful! Please log in.");
-          setIsLoginView(true);
-        }
-        reset();
-      }
-    } catch (err) {
-      console.error("Authentication error:", err);
+const onSubmit = async (data) => {
+  try {
+    let res;
+    if (isLoginView) {
+      res = await login(data); // <- your server action
+    } else {
+      res = await signup(data);
     }
-  };
+
+    if (res?.success) {
+      // 1. Trigger welcome animation, message, etc.
+      onAuthSuccess?.(data.email.split("@")[0]);
+
+      // 2. Delay session refresh till modal finishes unmounting
+      setTimeout(() => {
+        window.location.reload(); // or use `router.refresh()` if you prefer
+      }, 300); // Match your animation duration
+    }
+  } catch (err) {
+    console.error("Authentication error:", err);
+  }
+};
 
   return (
     <div
@@ -98,9 +84,15 @@ console.log({res});
         } z-20 `}
       >
         <CardHeader>
-          <CardTitle>{isLoginView ? "Login to your account" : "Create a new account"}</CardTitle>
+          <CardTitle>
+            {isLoginView ? "Login to your account" : "Create a new account"}
+          </CardTitle>
           <CardAction>
-            <Button variant="link" onClick={() => setIsLoginView(!isLoginView)} disabled={isSubmitting}>
+            <Button
+              variant="link"
+              onClick={() => setIsLoginView(!isLoginView)}
+              disabled={isSubmitting}
+            >
               {isLoginView ? "Sign Up" : "Back to Login"}
             </Button>
           </CardAction>
@@ -120,7 +112,9 @@ console.log({res});
                   disabled={isSubmitting}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
               <div className="grid gap-2">
@@ -139,7 +133,9 @@ console.log({res});
                   disabled={isSubmitting}
                 />
                 {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
 
@@ -185,7 +181,12 @@ console.log({res});
             Login with Google
           </Button>
 
-          <Button variant="ghost" className="w-full" onClick={closeModal} disabled={isSubmitting}>
+          <Button
+            variant="ghost"
+            className="w-full"
+            onClick={closeModal}
+            disabled={isSubmitting}
+          >
             Close
           </Button>
         </CardFooter>

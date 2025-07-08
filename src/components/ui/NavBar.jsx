@@ -15,14 +15,12 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useCartStore from "@/store/useCartStore";
 import ShoppingCartPanel from "@/components/UserDashboard/ShoppingCartPanel";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
+import { signOut } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-  console.log({ session, status });
-
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userName, setUserName] = useState("");
+  //console.log({ session, status });
 
   const { openModal, closeModal } = useAuthModalStore();
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -40,9 +38,7 @@ export default function Navbar() {
 
   const router = useRouter();
 
-  const handleAuthSuccess = (name) => {
-    setIsAuthenticated(true);
-    setUserName(name);
+  const handleAuthSuccess = () => {
     closeModal();
     router.push("/dashboard");
   };
@@ -56,10 +52,11 @@ export default function Navbar() {
   return (
     <div className="navbar bg-[var(--navbar-bg)] p-2 shadow-[var(--shadow-custom)] z-10 fixed w-full">
       <div className="wrapper flex justify-between">
-        <p className={Style.logo}>ElevHer</p>
+        <Link href={"/"}>
+          <p className={Style.logo}>ElevHer</p>
+        </Link>
         <nav className="flex w-fit text-foreground gap-5 items-center">
           <CiGlobe size={20} />
-          {/* <IoCartOutline size={20} /> */}
 
           <Button
             variant="outline"
@@ -75,15 +72,26 @@ export default function Navbar() {
             )}
           </Button>
           <span>|</span>
-          {!isAuthenticated && (
+
+          {!session ? (
             <>
               <Link href="/">Register</Link>
               <Button variant="accent" size="sm" onClick={openModal}>
                 Login
               </Button>
             </>
+          ) : (
+            <>
+              <span className="ml-2">
+                Welcome, {session.user?.name || "User"}
+              </span>
+              <Button variant="accent" size="sm" onClick={signOut}>
+                Sign out
+              </Button>
+              <Link href="/dashboard">Dashboard</Link>
+            </>
           )}
-          {isAuthenticated && <span className="ml-2">Welcome, {userName}</span>}
+
           <div
             className="cursor-pointer"
             onClick={toggleSidenav}
