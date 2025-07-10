@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../users/user.schema.js";
 import jwt from "jsonwebtoken";
 import { JWT_KEY, GOOGLE_CLIENT_ID_BACKEND } from "../../config/variable.js";
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client } from "google-auth-library";
 
 export const signup = async (req, res) => {
   try {
@@ -44,29 +44,39 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    //requesting email and pass from the form field
     let { email, password } = req.body;
-
+  
     let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "User doesn't have an account" });
     }
 
+    //Then i will hash the password (again) and compare it with the one stored in the db.
     let isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-
+    //Generating a token
     let id = user._id;
     let token = jwt.sign({ id }, JWT_KEY, {
       expiresIn: "7d",
     });
+    
+    //logging what i'm sending to the client
+/*     console.log("3nd: object being sent to client:", {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      token,
+    }); */
 
     res.status(200).json({
       success: true,
       message: "Logged in successfully",
       token,
-      id: user._id,
       user: {
+        id: user._id,
         name: user.name,
         email: user.email,
       },
@@ -93,7 +103,9 @@ export const googleAuth = async (req, res) => {
     const { sub, email, name, picture } = payload;
 
     if (!email) {
-      return res.status(400).json({ message: "Invalid Google token: email missing." });
+      return res
+        .status(400)
+        .json({ message: "Invalid Google token: email missing." });
     }
 
     // Check if user exists
@@ -122,7 +134,6 @@ export const googleAuth = async (req, res) => {
         name: user.username,
       },
     });
-
   } catch (err) {
     console.error("Google auth error:", err.message);
     res.status(500).json({ message: "Google authentication failed." });

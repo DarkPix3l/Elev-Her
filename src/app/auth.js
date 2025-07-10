@@ -13,7 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       authorize: async (credentials) => {
         let { email, password } = credentials;
-  
+
         try {
           let response = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
             method: "POST",
@@ -27,10 +27,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           let data = await response.json();
 
           if (!response.ok) throw new Error(data.message);
-
-          return data;
+          
+          return {
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            token: data.token, // This is `user.token` in the jwt callback
+          };
         } catch (error) {
-        
           throw new Error(error.message);
         }
       },
@@ -53,7 +57,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async encode(params) {
       // params.token is the token returned in the jwt callback
       return jwt.sign(
-        { id: params.token?.id, accessToken: params.token?.accessToken },
+        {
+          id: params.token?.id,
+          accessToken: params.token?.accessToken,
+          email: params.token?.email, // <--- FIXED: Access email from params.token
+          name: params.token?.name,
+        },
         process.env.AUTH_SECRET
       );
     },
@@ -65,8 +74,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, account }) {
       if (user) {
         // assigning properties that are required in backend when decoding the token
-        token.id = user.id;
         token.accessToken = user.token;
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
       }
 
       if (account?.provider === "google") {
@@ -86,8 +97,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // token is the encoded object in the encode function
     session({ session, token }) {
       // session.access_token is the token generated in our custom api
+      session.user = {
+        id: token.id,
+        name: token.name,
+        email: token.email,
+      };
       session.accessToken = token.accessToken;
-      session.id = token.id;
       return session;
     },
   },
