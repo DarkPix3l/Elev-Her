@@ -22,13 +22,13 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Saving user in database
-    const user = await User.create({
+    await User.create({
       username,
       email,
       password: hashedPassword,
       birthDate,
     });
-    //response.send(user);
+    
     res.status(201).json({
       success: true,
       message: "User created successfully!",
@@ -62,14 +62,6 @@ export const login = async (req, res) => {
     let token = jwt.sign({ id }, JWT_KEY, {
       expiresIn: "7d",
     });
-    
-    //logging what i'm sending to the client
-/*     console.log("3nd: object being sent to client:", {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      token,
-    }); */
 
     res.status(200).json({
       success: true,

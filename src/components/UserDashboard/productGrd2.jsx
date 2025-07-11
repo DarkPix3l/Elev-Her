@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import ProductDialogContent from "../ui/product_dialog/ProductDialogContent";
-import { Dialog, DialogTrigger } from "@/components/ui/product_dialog/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import StarRating from "@/components/ui/StarRating";
 
 export default function ProductGrid({ products, onAddToCart }) {

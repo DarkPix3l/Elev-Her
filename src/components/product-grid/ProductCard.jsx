@@ -3,7 +3,7 @@ import Image from "next/image";
 import StarRating from "@/components/ui/StarRating";
 import { AddToCartButton } from "../ui/AddToCartButton";
 import ProductDialogContent from "../ui/product_dialog/ProductDialogContent";
-import { Dialog, DialogTrigger } from "@/components/ui/product_dialog/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import useProductDialogStore from "@/store/useProductDialogStore";
 import useCartStore from "@/store/useCartStore";
 
@@ -18,7 +18,7 @@ export default function ProductCard({ product }) {
     reset,
   } = useProductDialogStore();
 
-    const addToCart = useCartStore((state) => state.addToCart);
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAddToCart = () => {
     if (selectedProduct && selectedSize && selectedColor) {
@@ -54,7 +54,6 @@ export default function ProductCard({ product }) {
                 disabled={!product.inStock}
                 onClick={() => setSelectedProduct(product)}
               />
-
             </DialogTrigger>
             <ProductDialogContent
               product={product}

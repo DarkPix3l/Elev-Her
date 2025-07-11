@@ -1,14 +1,18 @@
-"use client"
+"use client";
 
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/product_dialog/dialog"
-import { Button } from "@/components/ui/Button"
+import {
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/Button";
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 export default function ProductDialogContent({
   product,
@@ -19,7 +23,7 @@ export default function ProductDialogContent({
   handleAddToCart,
 }) {
   return (
-    <DialogContent>
+    <DialogContent className="bg-[linear-gradient(to_bottom,oklch(36.194%_0.03849_276.321),oklch(0.4775_0.0947_273.46))] border border-white shadow-lg">
       <DialogHeader>
         <DialogTitle>{product.summary}</DialogTitle>
       </DialogHeader>
@@ -74,5 +78,5 @@ export default function ProductDialogContent({
         </div>
       </div>
     </DialogContent>
-  )
+  );
 }

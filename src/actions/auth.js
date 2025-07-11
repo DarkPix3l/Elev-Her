@@ -10,7 +10,7 @@ export async function login(data) {
     const res = await signIn("credentials", {
       email: validatedData.email,
       password: validatedData.password,
-      redirect: false, // Important: prevent auto-redirect
+      redirect: false,
     });
 
     if (res?.error) {
@@ -27,19 +27,19 @@ export async function login(data) {
   }
 }
 
-//export const signup = async (username, birthdate, email, password) => {};
 
-export async function signup(formData) {
+export async function signup(data) {
   try {
-    const data = Object.fromEntries(formData);
     const validatedData = signupSchema.parse(data);
 
-    const response = await fetch(`${process.env.API_BASE_URL}/auth/signup`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        username: validatedData.username,
         email: validatedData.email,
         password: validatedData.password,
+        birthDate: validatedData.birthDate,
       }),
     });
 
@@ -52,6 +52,7 @@ export async function signup(formData) {
     return {
       success: true,
       message: "Registration successful! You can now log in.",
+      redirectTo: "/",
     };
   } catch (error) {
     if (error instanceof z.ZodError) {

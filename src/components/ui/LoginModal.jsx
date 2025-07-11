@@ -12,29 +12,28 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, signupSchema } from "@/actions/authSchema";
+import { loginSchema } from "@/actions/authSchema";
 import { login, signup, loginWithGoogle } from "@/actions/auth";
 import { useAuthModalStore } from "@/store/authModalStore";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner"
 
-
-export function CardDemo({ onAuthSuccess }) {
+export function CardDemo() {
   const [isLoginView, setIsLoginView] = useState(true);
 
-  const { isOpen, shouldRender, closeModal } = useAuthModalStore();
 
-  const currentSchema = isLoginView ? loginSchema : signupSchema;
+  const { isOpen, shouldRender, closeModal } = useAuthModalStore();
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
     reset,
   } = useForm({
-    resolver: zodResolver(currentSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -49,28 +48,19 @@ export function CardDemo({ onAuthSuccess }) {
 
   if (!shouldRender) return null;
 
-const onSubmit = async (data) => {
-  try {
-    let res;
-    if (isLoginView) {
-      res = await login(data); // <- your server action
-    } else {
-      res = await signup(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await login(data);
+      if (res?.success) {
+        toast.success('Signed in successfully!', { id: "signup-success" });
+        closeModal();
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("Authentication failed", err);
+      toast.error(err || "Failed to register", { id: "signup-error" });
     }
-
-    if (res?.success) {
-      // 1. Trigger welcome animation, message, etc.
-      onAuthSuccess?.(data.email.split("@")[0]);
-
-      // 2. Delay session refresh till modal finishes unmounting
-      setTimeout(() => {
-        window.location.reload(); // or use `router.refresh()` if you prefer
-      }, 300); // Match your animation duration
-    }
-  } catch (err) {
-    console.error("Authentication error:", err);
-  }
-};
+  };
 
   return (
     <div
@@ -85,7 +75,7 @@ const onSubmit = async (data) => {
       >
         <CardHeader>
           <CardTitle>
-            {isLoginView ? "Login to your account" : "Create a new account"}
+            {/* {isLoginView ? "Login to your account" : "Create a new account"} */}Login to your account
           </CardTitle>
           <CardAction>
             <Button
@@ -93,12 +83,13 @@ const onSubmit = async (data) => {
               onClick={() => setIsLoginView(!isLoginView)}
               disabled={isSubmitting}
             >
-              {isLoginView ? "Sign Up" : "Back to Login"}
+              {/* {isLoginView ? "Sign Up" : "Back to Login"} */}
             </Button>
           </CardAction>
         </CardHeader>
 
         <CardContent>
+          {/* i am passing signup as parameter of handleSubmit, because of the validation. here's still manual, for now, in the login <Form> will be used*/}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
@@ -117,6 +108,7 @@ const onSubmit = async (data) => {
                   </p>
                 )}
               </div>
+
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
@@ -161,10 +153,8 @@ const onSubmit = async (data) => {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                     />
                   </svg>
-                ) : isLoginView ? (
-                  "Login"
                 ) : (
-                  "Register"
+                  "Login"
                 )}
               </Button>
             </div>
@@ -191,8 +181,10 @@ const onSubmit = async (data) => {
           </Button>
         </CardFooter>
       </Card>
+
+      {/* Backdrop */}
       <div
-        className="bg-black/80 w-screen h-screen absolute z-10 blur-sm"
+        className="bg-black/80 w-screen h-screen absolute z-10 blur"
         style={{
           backgroundImage: `url('/Vector2.png')`,
           backgroundSize: "100%",
