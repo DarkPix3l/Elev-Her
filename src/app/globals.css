@@ -63,8 +63,8 @@
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-1a: oklch(0.646 0.222 41.116);
+  --chart-2a: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
@@ -146,10 +146,10 @@
   html {
     scroll-behavior: smooth;
     scroll-margin-top: 600px;
-    font-size: 14px;
+    font-size: 15px;
   }
 
-  body{
+  body {
     overflow-x: clip;
     width: 100vw; /* always a good practice, but this time especially for preventing scroll locking + scrollbar shift combo of Radix UI’s Dialog. */
   }
@@ -185,6 +185,10 @@
 
   section {
     padding: 5rem 0;
+  }
+
+  section[aria-label="Notifications alt+T"] {
+    padding: 0 !important;
   }
 
   .gen-section {

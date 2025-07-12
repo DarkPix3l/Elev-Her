@@ -27,7 +27,7 @@ import {
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "@/actions/authSchema";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 export default function SignInModal() {
   const {
@@ -42,7 +42,7 @@ export default function SignInModal() {
       password: "",
       birthDate: undefined,
     },
-     resolver: zodResolver(signupSchema),
+    resolver: zodResolver(signupSchema),
   });
   const [date, setBirthDate] = useState(undefined);
 
@@ -51,25 +51,44 @@ export default function SignInModal() {
     setValue("birthDate", selectedDate, { shouldValidate: true });
   };
 
-const [open, setOpen] = useState(false);
-const [status, setStatus] = useState({ success: false, message: "" });
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState({ success: false, message: "" });
 
-async function handleSignup(data) {
-  const result = await signup(data);
+  async function handleSignup(data) {
+    const result = await signup(data);
 
-  if (result.success) {
-    setStatus({ success: true, message: result.message });
-    toast.success(result.message, { id: "signup-success" });
+    if (result.success) {
+      setStatus({ success: true, message: result.message });
+      toast.success(result.message, {
+        id: "signup-success",
+        style: {
+          background: "var(--navbar-bg)",
+          color: "var(--chart-2a)",
+          fontSize: "18px",
+          borderColor: "var(--chart-2a)",
+        },
+      });
 
-    setTimeout(() => {
-      setOpen(false);
-      setStatus({ success: false, message: "" }); // Optional: reset state
-    }, 1500);
-  } else {
-    setStatus({ success: false, message: result.error || "Failed to register" });
-    toast.error(result.message || "Failed to register", { id: "signup-error" });
+      setTimeout(() => {
+        setOpen(false);
+        setStatus({ success: false, message: "" }); // Optional: reset state
+      }, 1500);
+    } else {
+      setStatus({
+        success: false,
+        message: result.error,
+      });
+      toast.error(result.message || "Failed to register", {
+        id: "signup-error",
+        style: {
+          background: "var(--navbar-bg)",
+          color: "var(--chart-5)",
+          fontSize: "18px",
+          borderColor: "var(--chart-5)",
+        },
+      });
+    }
   }
-}
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -139,7 +158,7 @@ async function handleSignup(data) {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                  id="birthDate"
+                    id="birthDate"
                     variant={"outline"}
                     className={cn(
                       "w-full pl-3 text-left font-normal",
