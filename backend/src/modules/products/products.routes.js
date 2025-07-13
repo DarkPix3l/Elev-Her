@@ -17,9 +17,8 @@ const router = express.Router();
 router
   .route("/")
   .get(getProducts)
-  //.post(AuthGuard, RoleGuard("admin"), validate(createProductSchema), createProduct);
-  .post(validate(createProductSchema), createProduct);
-
+  .post(AuthGuard, RoleGuard("admin"), validate(createProductSchema), createProduct);
+  
 router.get("/:slug", getProduct);
 
 router

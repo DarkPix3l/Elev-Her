@@ -10,20 +10,21 @@ import {
 } from "./users.controller.js";
 import { adminCreateUser, updateUserSchema } from "./users.validator.js";
 import validate from "../../middlewares/p.validator.middleware.js";
+import {onlySelfOrAdmin} from "./onlySelfOrAdmin.middleware.js"
 
 const router = express.Router();
 
 router
   .route("/")
-  //.all(AuthGuard, RoleGuard("admin"))
+  .all(AuthGuard, RoleGuard("admin"))
   .get(getUsers)
-  .post(validate(adminCreateUser), createUser); //for user see "signup"
+  .post(validate(adminCreateUser), createUser);
 
 router
   .route("/:id")
-  //.all(AuthGuard, validateObjectId)
+  .all(AuthGuard, validateObjectId, onlySelfOrAdmin)
   .get(getUser)
-  .put(validate(updateUserSchema),updateUser)
+  .post(validate(updateUserSchema),updateUser)
   .delete(deleteUser);
 
 export default router;

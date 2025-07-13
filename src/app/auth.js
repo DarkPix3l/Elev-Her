@@ -51,24 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
   },
-  secret: process.env.AUTH_SECRET,
-  jwt: {
-    async encode(params) {
-      // params.token is the token returned in the jwt callback
-      return jwt.sign(
-        {
-          id: params.token?.id,
-          accessToken: params.token?.accessToken,
-          email: params.token?.email, // <--- FIXED: Access email from params.token
-          name: params.token?.name,
-        },
-        process.env.AUTH_SECRET
-      );
-    },
-    async decode(params) {
-      return jwt.verify(params.token, process.env.AUTH_SECRET);
-    },
-  },
+
   callbacks: {
     async jwt({ token, user, account }) {
       if (user) {

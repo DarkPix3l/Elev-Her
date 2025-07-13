@@ -72,15 +72,18 @@ export const createUser = async (req, res) => {
   }
 };
 
-//PUT
+//POST
 export const updateUser = async (req, res) => {
   try {
     const userExist = await User.findById(req.params.id);
+    if (!userExist) {
+      return res.status(404).send("User not found.");
+    }
     let newPassword;
     if (req.body.password) {
       newPassword = bcrypt.hashSync(req.body.password, 10);
     } else {
-      newPassword = userExist.passwordHash;
+      newPassword = userExist.password;
     }
 
     const user = await User.findByIdAndUpdate(
@@ -108,12 +111,6 @@ export const updateUser = async (req, res) => {
 //DELETE
 export const deleteUser = async (req, res) => {
   try {
-    /*     if (req.user.role !== 'admin' && req.user._id.toString() !== req.params.id) {
-      return res.status(403).json({ // 403 Forbidden
-        success: false,
-        message: "Nice try"
-      });
-    } */
     const user = await User.findByIdAndDelete(req.params.id);
 
     if (!user) {
