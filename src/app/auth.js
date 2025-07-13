@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import jwt from "jsonwebtoken";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -32,7 +31,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             id: data.user.id,
             name: data.user.name,
             email: data.user.email,
-            token: data.token, // This is `user.token` in the jwt callback
+            token: data.token, // the famous token coming from the backend
           };
         } catch (error) {
           throw new Error(error.message);
@@ -78,6 +77,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
+        token.avatar= user.avatar;
       }
 
       if (account?.provider === "google") {
@@ -88,19 +88,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
         const data = await res.json();
 
-        token.id = data.id;
+        token.id = data.user.id;
+        token.avatar = data.user.avatar;
         token.accessToken = data.token;
       }
       return token;
     },
-    // encode function is called between jwt and session
-    // token is the encoded object in the encode function
+   
     session({ session, token }) {
-      // session.access_token is the token generated in our custom api
+     
       session.user = {
         id: token.id,
         name: token.name,
         email: token.email,
+        avatar: token.avatar,
       };
       session.accessToken = token.accessToken;
       return session;

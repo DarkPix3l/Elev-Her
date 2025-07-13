@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import SignInModal from "./SignInModal.jsx";
+import Image from "next/image.js";
 
 export default function Navbar() {
   const { openModal } = useAuthModalStore();
@@ -78,6 +79,16 @@ export default function Navbar() {
               <span className="ml-2">
                 Welcome, {session.user?.name || "User"}
               </span>
+
+              {session.user.avatar && (
+                <Image
+                  src={session.user.avatar}
+                  alt={session.user.name || "Avatar"}
+                  width={30}
+                  height={30}
+                  className="rounded-full"
+                />
+              )}
               <Button variant="accent" size="sm" onClick={signOut}>
                 Sign out
               </Button>

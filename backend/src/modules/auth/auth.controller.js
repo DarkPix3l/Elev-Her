@@ -71,6 +71,7 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
       },
     });
   } catch (error) {
@@ -119,11 +120,11 @@ export const googleAuth = async (req, res) => {
     res.status(200).json({
       success: true,
       token,
-      id: user._id,
       user: {
         id: user._id,
         email: user.email,
         name: user.username,
+        avatar: user.avatar,
       },
     });
   } catch (err) {
