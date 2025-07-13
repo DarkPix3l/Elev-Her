@@ -95,36 +95,36 @@ const getStatusColor = (status) => {
 
 export default function OrderHistory() {
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col">
       <Card>
         <CardHeader>
           <CardTitle>Order History</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="p-0 sm:p-6">
+          <div className="space-y-4 ">
             {sampleOrders.map((order) => (
               <Card key={order.id} className="border">
-                <CardContent className="p-4">
+                <CardContent className="cardy p-0 md:p-4">
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="font-semibold">Order {order.id}</h3>
                       <p className="text-sm text-gray-600">Placed on {new Date(order.date).toLocaleDateString()}</p>
                     </div>
-                    <div className="text-right">
+                    <div className="item-right">
                       <div className="flex items-center gap-2 mb-2">
                         {getStatusIcon(order.status)}
                         <Badge className={getStatusColor(order.status)}>
                           {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                         </Badge>
                       </div>
-                      <p className="font-bold">${order.total.toFixed(2)}</p>
+                      <p className="font-bold ml-auto">€ {order.total.toFixed(2)}</p>
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     {order.items.map((item, index) => (
                       <div key={index} className="flex justify-between items-center py-2 border-t">
-                        <div>
+                        <div className="max-w-[69%] md:max-w-auto">
                           <p className="font-medium">{item.name}</p>
                           <p className="text-sm text-gray-600">
                             Size: {item.size} | Color: {item.color} | Qty: {item.quantity}
@@ -135,7 +135,7 @@ export default function OrderHistory() {
                     ))}
                   </div>
 
-                  <div className="flex gap-2 mt-4">
+                  <div className="flex flex-col md:flex-row gap-2 mt-4">
                     <Button variant="outline" size="sm">
                       View Details
                     </Button>

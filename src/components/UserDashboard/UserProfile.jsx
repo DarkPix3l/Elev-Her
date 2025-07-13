@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 
 export default function UserProfile() {
+
   const [isEditing, setIsEditing] = useState(false)
   const [profile, setProfile] = useState({
     firstName: "John",
@@ -68,15 +69,15 @@ export default function UserProfile() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="personal" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="personal">Personal Info</TabsTrigger>
-              <TabsTrigger value="address">Address</TabsTrigger>
-              <TabsTrigger value="payment">Payment Methods</TabsTrigger>
-              <TabsTrigger value="preferences">Preferences</TabsTrigger>
+            <TabsList className="bg-gray-700">
+              <TabsTrigger className="px-6 py-4" value="personal">Personal Info</TabsTrigger>
+              <TabsTrigger className="px-6 py-4" value="address">Address</TabsTrigger>
+              <TabsTrigger className="px-6 py-4" value="payment">Payment Methods</TabsTrigger>
+              <TabsTrigger className="px-6 py-4" value="preferences">Preferences</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="personal" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TabsContent value="personal" className="">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
                   <Input

@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ProductDialogContent from "../ui/product_dialog/ProductDialogContent";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import StarRating from "@/components/ui/StarRating";
+import {fetchProducts} from "@/services/product.apis";
 
 export default function ProductGrid({ products, onAddToCart }) {
   const {
@@ -26,6 +27,7 @@ export default function ProductGrid({ products, onAddToCart }) {
       reset();
     }
   };
+
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
