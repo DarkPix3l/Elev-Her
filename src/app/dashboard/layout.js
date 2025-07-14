@@ -7,7 +7,7 @@ export default async function DashboardLayout({ children }) {
   const session = await auth();
 
   if (!session || !session.user) {
-    redirect("/"); // o una pagina di login
+    redirect("/");
   }
 
   return (

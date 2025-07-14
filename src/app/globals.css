@@ -287,7 +287,7 @@ originally intended for this purpose.
     @apply mx-auto w-[80%] max-w-[1440px];
   }
 
-  .navbar nav > *:not(.show) {
+  .hide {
     @apply hidden md:flex;
   }
 

@@ -16,8 +16,9 @@ import ShoppingCartPanel from "@/components/UserDashboard/ShoppingCartPanel";
 import { Badge } from "@/components/ui/badge";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import SignInModal from "./SignInModal.jsx";
+import SignInModal from "./SignUPModal.jsx";
 import Image from "next/image.js";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { openModal } = useAuthModalStore();
@@ -40,10 +41,13 @@ export default function Navbar() {
   const { data: session, status } = useSession();
   console.log({ session, status });
 
+  const pathname = usePathname();
+  const isDashboard = pathname.startsWith("/dashboard");
+
   return (
     <div className="navbar bg-[var(--navbar-bg)] p-2 shadow-[var(--shadow-custom)] z-10 fixed w-full">
-      <div className="wrapper flex justify-between">
-        <Link href="/">
+      <div className="wrapper flex justify-center md:justify-between">
+        <Link href="/" className="hide">
           <p className={Style.logo}>ElevHer</p>
         </Link>
 
@@ -76,7 +80,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <span className="ml-2">
+              <span className="ml-2 hide">
                 Welcome, {session.user?.name || "User"}
               </span>
 
@@ -92,7 +96,6 @@ export default function Navbar() {
               <Button variant="accent" size="sm" onClick={signOut}>
                 Sign out
               </Button>
-              <Link href="/dashboard">Dashboard</Link>
             </>
           )}
           {/* Hamburger menu */}
@@ -101,7 +104,9 @@ export default function Navbar() {
             onClick={toggleSidenav}
             ref={triggerRef}
           >
-            <GiHamburgerMenu size={25} className="show cursor-pointer" />
+            {!isDashboard && (
+              <GiHamburgerMenu size={25} className="hide cursor-pointer" />
+            )}
           </div>
         </nav>
       </div>

@@ -1,3 +1,10 @@
+.title{
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff7c8e;
+  
+}
+
 .explore_section {
   background: var(--gradient-bg);
   position: relative;

@@ -24,9 +24,9 @@ export default function ExploreSection() {
             </div>
 
             <div className="max-w-[200px]">
-              <h3>edbvjdfhbvj</h3>
+              <h3 className={Style.title}>Breathable</h3>
               <p className="break-all">
-                skdjhcbjhdbksjhbckjhdsbckjhsbdcjhbsdjhcbjshdbckshdbcjshdbcjhsdbjchdsjhbcjshdbcjhdsb
+                Micro-perforated panels are strategically placed to promote airflow across pressure points, improving breathability and regulating foot temperature.
               </p>
             </div>
 
@@ -38,9 +38,9 @@ export default function ExploreSection() {
             </div>
 
             <div className="max-w-[200px]">
-              <h3>edbvjdfhbvj</h3>
+              <h3 className={Style.title}>Heel Air Support</h3>
               <p className="break-all">
-                skdjhcbjhdbksjhbckjhdsbckjhsbdcjhbsdjhcbjshdbckshdbcjshdbcjhsdbjchdsjhbcjshdbcjhdsb
+                An integrated air capsule system positioned in the heel ensures dynamic shock absorption during impact, reducing stress on joints while enhancing stride responsiveness.
               </p>
             </div>
 

@@ -1,4 +1,3 @@
-import Image from "next/image.js";
 import { Button } from "../ui/Button";
 import Link from "next/link";
 
@@ -7,7 +6,6 @@ export default function HeroSection() {
     <>
     <section id="hero" className="gen-section hero-section flex items-start md:items-center ">
        
-      {/* <div className="stripe"></div> */}
       <div className="wrapper">
         <div className="divider">
           <div className="hero-message max-w-[500px] flex flex-col gap-8 z-1">
@@ -26,7 +24,7 @@ export default function HeroSection() {
                 <Link href="/">Buy Now</Link>
               </Button>
               <Button variant="default" size="lg">
-                <Link href="#products">See all models</Link>
+                <Link href="#choose-us">Learn more</Link>
               </Button>
             </div>
           </div>

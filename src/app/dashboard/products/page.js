@@ -50,7 +50,7 @@ export default function ProductsPage() {
       <CardHeader>
         <CardTitle>Browse Shoes</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0 md:px-6">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -61,7 +61,7 @@ export default function ProductsPage() {
               className="pl-10"
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             {categories.map((category) => (
               <Button
                 key={category}

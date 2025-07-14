@@ -8,6 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -29,7 +30,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "@/actions/authSchema";
 import { toast } from "sonner";
 
-export default function SignInModal() {
+export default function SignUPModal() {
   const {
     register,
     handleSubmit,
@@ -114,6 +115,7 @@ export default function SignInModal() {
                 placeholder="m@example.com"
                 {...register("username")}
                 disabled={isSubmitting}
+                autocomplete="username"
               />
               {errors.username && (
                 <p className="text-red-500 text-sm mt-1">
@@ -129,6 +131,7 @@ export default function SignInModal() {
                 placeholder="m@example.com"
                 {...register("email")}
                 disabled={isSubmitting}
+                autocomplete="email"
               />
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">
@@ -145,6 +148,7 @@ export default function SignInModal() {
                 placeholder="••••••••"
                 {...register("password")}
                 disabled={isSubmitting}
+                autocomplete="new-password"
               />
               {errors.password && (
                 <p className="text-red-500 text-sm">
@@ -236,6 +240,7 @@ export default function SignInModal() {
           </DialogFooter>
         </form>
       </DialogContent>
+      <DialogOverlay className="bg-[url('/Vector2.png')] bg-[length:100%] bg-no-repeat bg-center blur"/>
     </Dialog>
   );
 }

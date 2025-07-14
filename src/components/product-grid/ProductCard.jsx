@@ -34,7 +34,7 @@ export default function ProductCard({ product }) {
         height={300}
         /* sizes="(max-width: 300px) 100vw, (max-width: 150px) 50vw, 33vw" */
         alt={product.title}
-        className="absolute left-1/2 -translate-x-1/2 -top-10 origin-bottom-center -rotate-33"
+        className="absolute h-auto left-1/2 -translate-x-1/2 -top-10 origin-bottom-center -rotate-33"
       />
       <div className=""></div>
       <div className="bg-white h-[12rem] p-6 rounded-sm align-bottom grid grid-cols-[2fr_0.5fr]">

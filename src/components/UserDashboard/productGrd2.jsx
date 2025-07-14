@@ -8,7 +8,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import ProductDialogContent from "../ui/product_dialog/ProductDialogContent";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import StarRating from "@/components/ui/StarRating";
-import {fetchProducts} from "@/services/product.apis";
 
 export default function ProductGrid({ products, onAddToCart }) {
   const {
@@ -37,7 +36,7 @@ export default function ProductGrid({ products, onAddToCart }) {
             key={product.slug}
             className="group hover:shadow-lg transition-shadow"
           >
-            <CardContent className="p-4">
+            <CardContent className="p-0 md:p-3">
               <div className="relative mb-4">
                 <img
                   src={product.mainImage || "/placeholder.svg"}
