@@ -21,7 +21,7 @@ export default function HeroSection() {
             </div>
             <div className="msg-buttons flex flex-col gap-8 lg:flex-row">
               <Button variant="accent" size="lg">
-                <Link href="/">Buy Now</Link>
+                <Link href="#products">Buy Now</Link>
               </Button>
               <Button variant="default" size="lg">
                 <Link href="#choose-us">Learn more</Link>

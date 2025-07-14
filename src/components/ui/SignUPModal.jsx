@@ -115,7 +115,7 @@ export default function SignUPModal() {
                 placeholder="m@example.com"
                 {...register("username")}
                 disabled={isSubmitting}
-                autocomplete="username"
+                autoComplete="username"
               />
               {errors.username && (
                 <p className="text-red-500 text-sm mt-1">
@@ -131,7 +131,7 @@ export default function SignUPModal() {
                 placeholder="m@example.com"
                 {...register("email")}
                 disabled={isSubmitting}
-                autocomplete="email"
+                autoComplete="email"
               />
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">
@@ -148,7 +148,7 @@ export default function SignUPModal() {
                 placeholder="••••••••"
                 {...register("password")}
                 disabled={isSubmitting}
-                autocomplete="new-password"
+                autoComplete="new-password"
               />
               {errors.password && (
                 <p className="text-red-500 text-sm">

@@ -39,7 +39,7 @@ export default function Navbar() {
     0
   );
   const { data: session, status } = useSession();
-  console.log({ session, status });
+ /*  console.log({ session, status }); */
 
   const pathname = usePathname();
   const isDashboard = pathname.startsWith("/dashboard");
@@ -80,7 +80,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <span className="ml-2 hide">
+              <span className="ml-2 hidden lg:flex">
                 Welcome, {session.user?.name || "User"}
               </span>
 
@@ -93,6 +93,7 @@ export default function Navbar() {
                   className="rounded-full"
                 />
               )}
+              <Link href="/dashboard">Dashboard</Link>
               <Button variant="accent" size="sm" onClick={signOut}>
                 Sign out
               </Button>

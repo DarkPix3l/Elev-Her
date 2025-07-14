@@ -101,7 +101,7 @@ export function CardDemo() {
                   required
                   {...register("email")}
                   disabled={isSubmitting}
-                  autocomplete="email"
+                  autoComplete="email"
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">
@@ -124,7 +124,7 @@ export function CardDemo() {
                   required
                   {...register("password")}
                   disabled={isSubmitting}
-                  autocomplete="password"
+                  autoComplete="password"
                 />
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">
