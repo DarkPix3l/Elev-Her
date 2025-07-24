@@ -8,11 +8,11 @@ const nextConfig = {
         //port: '',
         //pathname: '/images/**', 
       },
-      //Add more objects here for other allowed external domains if necessary
-  /*     {
+      {
         protocol: 'https',
-        hostname: 'another-cdn.com',
-      }, */
+        hostname: 'xirnisljwfonmigntagf.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
     ],
   },
 };

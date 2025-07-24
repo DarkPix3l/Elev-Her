@@ -20,11 +20,7 @@ import { signup, loginWithGoogle } from "@/actions/auth";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "@/actions/authSchema";
@@ -91,6 +87,8 @@ export default function SignUPModal() {
     }
   }
 
+  const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -101,9 +99,7 @@ export default function SignUPModal() {
           {/*i am passing signup as parameter of handleSubmit, because of the validation */}
           <DialogHeader className="pb-5">
             <DialogTitle>Sign up</DialogTitle>
-            <DialogDescription>
-              Join us! Your next adventure starts here.
-            </DialogDescription>
+            <DialogDescription>Join us! Your next adventure starts here.</DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 text-white">
@@ -118,9 +114,7 @@ export default function SignUPModal() {
                 autoComplete="username"
               />
               {errors.username && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.username.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
               )}
             </div>
             <div className="grid gap-3">
@@ -133,11 +127,7 @@ export default function SignUPModal() {
                 disabled={isSubmitting}
                 autoComplete="email"
               />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
             </div>
 
             <div className="grid gap-3">
@@ -150,11 +140,7 @@ export default function SignUPModal() {
                 disabled={isSubmitting}
                 autoComplete="new-password"
               />
-              {errors.password && (
-                <p className="text-red-500 text-sm">
-                  {errors.password.message}
-                </p>
-              )}
+              {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
             </div>
 
             <div className="grid gap-3">
@@ -164,10 +150,7 @@ export default function SignUPModal() {
                   <Button
                     id="birthDate"
                     variant={"outline"}
-                    className={cn(
-                      "w-full pl-3 text-left font-normal",
-                      "text-muted-foreground"
-                    )}
+                    className={cn("w-full pl-3 text-left font-normal", "text-muted-foreground")}
                   >
                     {date ? format(date, "PPP") : <span>Pick a date</span>}
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -178,27 +161,18 @@ export default function SignUPModal() {
                     mode="single"
                     selected={date}
                     onSelect={onDateChange}
-                    disabled={(d) =>
-                      d > new Date() || d < new Date("1900-01-01")
-                    }
+                    disabled={(d) => d > new Date() || d < new Date("1900-01-01")}
                     captionLayout="dropdown"
                   />
                 </PopoverContent>
               </Popover>
               {errors.birthDate && (
-                <p className="text-red-500 text-sm">
-                  {errors.birthDate.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.birthDate.message}</p>
               )}
             </div>
           </div>
           <DialogFooter className="flex flex-col gap-3 pt-5">
-            <Button
-              type="submit"
-              className="w-full"
-              variant="accent"
-              disabled={isSubmitting}
-            >
+            <Button type="submit" className="w-full" variant="accent" disabled={isSubmitting}>
               {isSubmitting ? (
                 <svg
                   className="animate-spin h-5 w-5 text-white"
@@ -224,12 +198,7 @@ export default function SignUPModal() {
                 "Submit"
               )}
             </Button>
-            <Button
-              variant=""
-              className="w-full"
-              onClick={loginWithGoogle}
-              disabled={isSubmitting}
-            >
+            <Button variant="" className="w-full" onClick={loginWithGoogle} disabled={isSubmitting}>
               Continue with Google
             </Button>
             <DialogClose asChild>
@@ -240,7 +209,10 @@ export default function SignUPModal() {
           </DialogFooter>
         </form>
       </DialogContent>
-      <DialogOverlay className="bg-[url('/Vector2.png')] bg-[length:100%] bg-no-repeat bg-center blur"/>
+      <DialogOverlay
+        style={{ backgroundImage: `url(${baseURL}/Vector2.png)` }}
+        className="bg-[length:100%] bg-no-repeat bg-center blur"
+      />
     </Dialog>
   );
 }

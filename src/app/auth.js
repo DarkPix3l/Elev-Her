@@ -32,6 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             name: data.user.name,
             email: data.user.email,
             token: data.token, // the famous token coming from the backend
+            avatar: data.user.avatar,
           };
         } catch (error) {
           throw new Error(error.message);

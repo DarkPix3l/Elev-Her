@@ -18,11 +18,10 @@ import { loginSchema } from "@/actions/authSchema";
 import { login, signup, loginWithGoogle } from "@/actions/auth";
 import { useAuthModalStore } from "@/store/authModalStore";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 export function CardDemo() {
   const [isLoginView, setIsLoginView] = useState(true);
-
 
   const { isOpen, shouldRender, closeModal } = useAuthModalStore();
   const router = useRouter();
@@ -52,7 +51,7 @@ export function CardDemo() {
     try {
       const res = await login(data);
       if (res?.success) {
-        toast.success('Signed in successfully!', { id: "signup-success" });
+        toast.success("Signed in successfully!", { id: "signup-success" });
         closeModal();
         router.refresh();
       }
@@ -62,6 +61,8 @@ export function CardDemo() {
     }
   };
 
+  const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  
   return (
     <div
       className={`p-9 absolute top-0 left-0 flex items-center justify-center z-20 w-screen h-screen ${
@@ -74,17 +75,13 @@ export function CardDemo() {
         } z-20 `}
       >
         <CardHeader>
-          <CardTitle>
-            {/* {isLoginView ? "Login to your account" : "Create a new account"} */}Login to your account
-          </CardTitle>
+          <CardTitle>Login to your account</CardTitle>
           <CardAction>
             <Button
               variant="link"
               onClick={() => setIsLoginView(!isLoginView)}
               disabled={isSubmitting}
-            >
-              {/* {isLoginView ? "Sign Up" : "Back to Login"} */}
-            </Button>
+            ></Button>
           </CardAction>
         </CardHeader>
 
@@ -104,9 +101,7 @@ export function CardDemo() {
                   autoComplete="email"
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.email.message}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
                 )}
               </div>
 
@@ -127,9 +122,7 @@ export function CardDemo() {
                   autoComplete="password"
                 />
                 {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.password.message}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
                 )}
               </div>
 
@@ -173,12 +166,7 @@ export function CardDemo() {
             Login with Google
           </Button>
 
-          <Button
-            variant="ghost"
-            className="w-full"
-            onClick={closeModal}
-            disabled={isSubmitting}
-          >
+          <Button variant="ghost" className="w-full" onClick={closeModal} disabled={isSubmitting}>
             Close
           </Button>
         </CardFooter>
@@ -188,7 +176,7 @@ export function CardDemo() {
       <div
         className="bg-black/80 w-screen h-screen absolute z-10 blur"
         style={{
-          backgroundImage: `url('/Vector2.png')`,
+          backgroundImage: `url(${baseURL}/Vector2.png)`,
           backgroundSize: "100%",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",

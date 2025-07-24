@@ -2,6 +2,8 @@ import Image from "next/image";
 import Style from "./WhyChooseUs.module.css";
 
 export default function WhyChooseUsSection() {
+  const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
   return (
     <section id="choose-us" className={Style.why_choose_us}>
       <div className="wrapper">
@@ -21,7 +23,7 @@ export default function WhyChooseUsSection() {
           {/* Image: edge */}
           <div className="col-span-1 row-span-1 col-start-4 md:col-span-2 md:col-start-3 lg:col-span-1 lg:row-span-2 overflow-hidden shadow-lg z-1">
             <Image
-              src="/why_choose_us/edge-3528319_1920.jpg"
+              src={`${baseURL}why-choose-us/edge-3528319_1920.jpg`}
               alt="Person's legs"
               width={1920}
               height={1280}
@@ -33,7 +35,7 @@ export default function WhyChooseUsSection() {
           <div className="col-span-2 row-span-2 md:col-start-5 overflow-hidden shadow-lg z-1">
             {" "}
             <Image
-              src="/why_choose_us/school-aden-2284257_1920.jpg"
+              src={`${baseURL}why-choose-us/school-aden-2284257_1920.jpg`}
               alt="Shoes on shelf"
               width={1920}
               height={1280}
@@ -44,7 +46,7 @@ export default function WhyChooseUsSection() {
           {/* Image: Sneakers on street*/}
           <div className="col-span-2 row-span-2 md:col-span-4 col-start-2 md:col-end-5 overflow-hidden shadow-lg z-1">
             <Image
-              src="/why_choose_us/nike-5126389_1280.jpg"
+              src={`${baseURL}why-choose-us/nike-5126389_1280.jpg`}
               alt="Sneakers on street"
               width={1280}
               height={853}
@@ -55,7 +57,7 @@ export default function WhyChooseUsSection() {
           {/* Image: Kitty cat */}
           <div className="col-span-1 row-span-1  md:row-span-1 col-start-5 overflow-hidden shadow-lg z-1">
             <Image
-              src="/why_choose_us/cat-2083492_1920.jpg"
+              src={`${baseURL}why-choose-us/cat-2083492_1920.jpg`}
               alt="Cat"
               width={1920}
               height={1280}

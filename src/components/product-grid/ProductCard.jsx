@@ -29,7 +29,7 @@ export default function ProductCard({ product }) {
   return (
     <div className="relative min-w-[15rem] min-h-[15rem] grid grid-rows-[1.5fr_2fr]">
       <Image
-        src={product.mainImage}
+        src={product.mainImage ? product.mainImage.trimEnd() : '/placeholder.png'}
         width={200}
         height={300}
         /* sizes="(max-width: 300px) 100vw, (max-width: 150px) 50vw, 33vw" */

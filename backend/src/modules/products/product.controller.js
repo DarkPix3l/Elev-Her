@@ -1,4 +1,6 @@
 import product from "./product.schema.js";
+import supabase from "../../lib/superbaseClient.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const getProducts = async (req, res) => {
   try {
@@ -18,6 +20,8 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   try {
+    // Destructure ONLY non-image fields from req.body.
+    // mainImage and images will come from req.files after upload.
     const {
       title,
       summary,
@@ -25,8 +29,6 @@ export const createProduct = async (req, res) => {
       price,
       inStock,
       quantity,
-      mainImage,
-      images,
       sizes,
       color,
       categories,
@@ -35,12 +37,61 @@ export const createProduct = async (req, res) => {
       metaKeywords,
     } = req.body;
 
+    const mainImageFile = req.files && req.files["mainImage"] ? req.files["mainImage"][0] : null;
+    const imagesFiles = (req.files && req.files["images"]) || [];
+
+    let mainImagePublicUrl = "";
+    let imagesPublicUrls = [];
+
+    // --- UPLOAD MAIN IMAGE ---
+    if (mainImageFile) {
+      const fileExtension = mainImageFile.originalname.split(".").pop();
+      const fileName = `${uuidv4()}.${fileExtension}`;
+      const filePath = `${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from(SUPABASE_BUCKET_NAME)
+        .upload(filePath, mainImageFile.buffer, {
+          contentType: mainImageFile.mimetype,
+          upsert: false,
+        });
+
+      if (error) {
+        console.error("Error uploading main image to Supabase:", error);
+        return res.status(500).send("Error uploading main image.");
+      }
+      mainImagePublicUrl = supabase.storage.from(SUPABASE_BUCKET_NAME).getPublicUrl(filePath)
+        .data.publicUrl;
+    }
+
+    // --- UPLOAD ADDITIONAL IMAGES ---
+    for (const file of imagesFiles) {
+      const fileExtension = file.originalname.split(".").pop();
+      const fileName = `${uuidv4()}.${fileExtension}`;
+      const filePath = `${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from(SUPABASE_BUCKET_NAME)
+        .upload(filePath, file.buffer, {
+          contentType: file.mimetype,
+          upsert: false,
+        });
+
+      if (error) {
+        console.error("Error uploading additional image to Supabase:", error);
+        // Continue loop if one image fails, don't stop the whole product creation
+        continue;
+      }
+      imagesPublicUrls.push(
+        supabase.storage.from(SUPABASE_BUCKET_NAME).getPublicUrl(filePath).data.publicUrl
+      );
+    }
+
     /* let userId = req.user._id; */
     let fixedUserId = "685947d04abbb819bccdddc2";
 
     // Generate a URL-friendly slug here so the frontend doesn't have to <3
-    let slug =
-      title.replaceAll(" ", "-").toLowerCase() + "-" + new Date().getTime();
+    let slug = title.replaceAll(" ", "-").toLowerCase() + "-" + new Date().getTime();
 
     await product.create({
       title,
@@ -50,8 +101,8 @@ export const createProduct = async (req, res) => {
       price,
       inStock,
       quantity,
-      mainImage,
-      images,
+      mainImage: mainImagePublicUrl,
+      images: imagesPublicUrls,
       sizes,
       color,
       categories,
@@ -66,9 +117,6 @@ export const createProduct = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-
-//TO REVIEW - I'm not sure if just the selected fields will be rewritten (the one where the user enters the value)
-//or also the empty fields will be replaced  ⮟⮟⮟⮟⮟⮟⮟⮟⮟
 
 export const updateProduct = async (req, res) => {
   const productId = req.params.id;

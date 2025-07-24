@@ -1,17 +1,53 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { User, CreditCard } from "lucide-react"
-import { Button } from "@/components/ui/Button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Separator } from "@/components/ui/separator"
+import { useState, useEffect } from "react";
+import { User, CreditCard } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { useSession, getSession } from "next-auth/react";
+
+async function updateAvatar(userId, file, token) {
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  const nextAuthUrl = process.env.NEXT_PUBLIC_NEXTAUTH;
+
+  const response = await fetch(`${nextAuthUrl}/users/${userId}/avatar`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  const text = await response.text();
+  console.log("Raw response text:", text);
+
+  try {
+    const json = JSON.parse(text);
+    if (!response.ok) {
+      throw new Error(json.message || "Failed to upload avatar");
+    }
+    return json;
+  } catch (err) {
+    console.error("Could not parse JSON from response:", text);
+    throw new Error("Unexpected response from server.");
+  }
+}
 
 export default function UserProfile() {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+    const [avatarUrl, setAvatarUrl] = useState(
+    session?.user?.avatar || `${process.env.NEXT_PUBLIC_SUPABASE_AVATAR_URL}/user-profile.jpg`
+  );
+  const [uploading, setUploading] = useState(false);
 
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     firstName: "John",
     lastName: "Doe",
@@ -24,34 +60,82 @@ export default function UserProfile() {
       zipCode: "10001",
       country: "United States",
     },
-  })
+  });
 
   const handleSave = () => {
-    setIsEditing(false)
+    setIsEditing(false);
     // Here you would typically save to your backend
-    console.log("Profile saved:", profile)
-  }
+    console.log("Profile saved:", profile);
+  };
 
   const handleInputChange = (field, value) => {
     if (field.includes(".")) {
-      const [parent, child] = field.split(".")
+      const [parent, child] = field.split(".");
       setProfile((prev) => ({
         ...prev,
         [parent]: {
           ...prev[parent],
           [child]: value,
         },
-      }))
+      }));
     } else {
       setProfile((prev) => ({
         ...prev,
         [field]: value,
-      }))
+      }));
     }
+  };
+
+const handleFileChange = async (e) => {
+  const file = e.target.files[0];
+  if (!file || !userId) return;
+
+  setUploading(true);
+  try {
+    const token = session?.accessToken || session?.user?.token; // depends on your session structure
+    if (!token) throw new Error("Not authenticated");
+
+    const res = await updateAvatar(userId, file, token);
+    setAvatarUrl(res.avatarUrl);
+    alert(res.message || "Avatar updated!");
+    await getSession({ strategy: "force-refresh" });
+  } catch (err) {
+    console.error(err);
+    alert("Failed to upload avatar: " + err.message);
+  } finally {
+    setUploading(false);
   }
+};
 
   return (
     <div className="space-y-6">
+      {/* Avatar */}
+      <div>
+        <img
+          src={avatarUrl || "Error Loading image"}
+          alt="User Avatar"
+          width={120}
+          height={120}
+          style={{ border: "1px solid white", borderRadius: "50%", objectFit: "cover", aspectRatio: "1/1", }}
+        />
+
+        <div>
+          <label
+            htmlFor="avatarUpload"
+            style={{ cursor: uploading ? "default" : "pointer", color: "blue" }}
+          >
+            {uploading ? "Uploading..." : "Change Avatar"}
+          </label>
+          <input
+            id="avatarUpload"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+            disabled={uploading}
+          />
+        </div>
+      </div>
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
@@ -70,10 +154,18 @@ export default function UserProfile() {
         <CardContent>
           <Tabs defaultValue="personal" className="space-y-4">
             <TabsList className="bg-gray-700">
-              <TabsTrigger className="px-6 py-4" value="personal">Personal Info</TabsTrigger>
-              <TabsTrigger className="px-6 py-4" value="address">Address</TabsTrigger>
-              <TabsTrigger className="px-6 py-4" value="payment">Payment Methods</TabsTrigger>
-              <TabsTrigger className="px-6 py-4" value="preferences">Preferences</TabsTrigger>
+              <TabsTrigger className="px-6 py-4" value="personal">
+                Personal Info
+              </TabsTrigger>
+              <TabsTrigger className="px-6 py-4" value="address">
+                Address
+              </TabsTrigger>
+              <TabsTrigger className="px-6 py-4" value="payment">
+                Payment Methods
+              </TabsTrigger>
+              <TabsTrigger className="px-6 py-4" value="preferences">
+                Preferences
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="personal" className="">
@@ -195,7 +287,9 @@ export default function UserProfile() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium">Order Updates</p>
-                        <p className="text-sm text-gray-600">Get notified about your order status</p>
+                        <p className="text-sm text-gray-600">
+                          Get notified about your order status
+                        </p>
                       </div>
                       <Button variant="outline" size="sm">
                         Enabled
@@ -205,7 +299,9 @@ export default function UserProfile() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium">Promotional Emails</p>
-                        <p className="text-sm text-gray-600">Receive offers and new product announcements</p>
+                        <p className="text-sm text-gray-600">
+                          Receive offers and new product announcements
+                        </p>
                       </div>
                       <Button variant="outline" size="sm">
                         Disabled
@@ -215,7 +311,9 @@ export default function UserProfile() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium">SMS Notifications</p>
-                        <p className="text-sm text-gray-600">Get text messages for important updates</p>
+                        <p className="text-sm text-gray-600">
+                          Get text messages for important updates
+                        </p>
                       </div>
                       <Button variant="outline" size="sm">
                         Enabled
@@ -229,5 +327,5 @@ export default function UserProfile() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

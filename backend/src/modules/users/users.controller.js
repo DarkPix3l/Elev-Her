@@ -1,6 +1,12 @@
-//user.controller for profiles, update user data
 import User from "../users/user.schema.js";
 import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
+import { SUPABASE_AVATAR_URL } from "../../config/variable.js";
+import supabase from "../../lib/superbaseClient.js";
+
+const DEFAULT_AVATAR = `${SUPABASE_AVATAR_URL}/user-profile.jpg`;
+const SUPABASE_BUCKET_NAME = SUPABASE_AVATAR_URL.split("/").pop();
+const DEFAULT_AVATAR_FILENAME = "user-profile.jpg";
 
 //GET
 export const getUsers = async (req, res) => {
@@ -10,27 +16,22 @@ export const getUsers = async (req, res) => {
     const userList = await User.find().select("-password");
 
     if (!userList) {
-      return res
-        .status(404)
-        .json({ success: false, message: "users not found" });
+      return res.status(404).json({ success: false, message: "users not found" });
     }
 
     res.status(200).send(userList);
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server error", error: error.message });
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 };
 
+//GET
 export const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: "The user with the given ID was not found." });
+      return res.status(404).json({ message: "The user with the given ID was not found." });
     }
 
     res.status(200).send(user);
@@ -56,6 +57,7 @@ export const createUser = async (req, res) => {
       password: passwordHash,
       address: req.body.address,
       role: req.body.role,
+      avatar: DEFAULT_AVATAR,
     });
 
     user = await user.save();
@@ -108,6 +110,82 @@ export const updateUser = async (req, res) => {
   }
 };
 
+//PATCH
+export const updateUserAvatar = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No avatar file provided." });
+    }
+
+    const file = req.file;
+    const fileExtension = file.originalname.split(".").pop();
+    const fileName = `${uuidv4()}.${fileExtension}`;
+    const bucketName = SUPABASE_BUCKET_NAME; 
+
+    const { data, error: uploadError } = await supabase.storage
+      .from(bucketName)
+      .upload(fileName, file.buffer, {
+        contentType: file.mimetype,
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error("Supabase upload error:", uploadError);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to upload avatar to Supabase.",
+        error: uploadError.message,
+      });
+    }
+
+    const newAvatarUrl = `${SUPABASE_AVATAR_URL}/${fileName}`;
+
+    if (user.avatar) {
+      const oldFileName = user.avatar.split("/").pop();
+
+      if (user.avatar.startsWith(SUPABASE_AVATAR_URL) && oldFileName !== DEFAULT_AVATAR_FILENAME) {
+        try {
+          const { error: deleteError } = await supabase.storage
+            .from(bucketName)
+            .remove([oldFileName]);
+
+          if (deleteError) {
+            console.warn(
+              `Failed to delete old avatar '${oldFileName}' from Supabase:`,
+              deleteError.message
+            );
+          }
+        } catch (e) {
+          console.warn("Error attempting to delete old avatar:", e.message);
+        }
+      }
+    }
+
+    user.avatar = newAvatarUrl;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Avatar updated successfully!",
+      avatarUrl: newAvatarUrl,
+    });
+  } catch (error) {
+    console.error("Error updating user avatar:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error during avatar update.",
+      error: error.message,
+    });
+  }
+};
+
 //DELETE
 export const deleteUser = async (req, res) => {
   try {
@@ -118,6 +196,27 @@ export const deleteUser = async (req, res) => {
         success: false,
         message: "User not found.",
       });
+    }
+
+    // If deleting a user, ensure their custom avatar is deleted, but not the default
+    if (
+      user.avatar &&
+      user.avatar.startsWith(SUPABASE_AVATAR_URL) &&
+      user.avatar.split("/").pop() !== DEFAULT_AVATAR_FILENAME
+    ) {
+      try {
+        const oldFileName = user.avatar.split("/").pop();
+        const { error: deleteError } = await supabase.storage
+          .from(SUPABASE_BUCKET_NAME)
+          .remove([oldFileName]);
+        if (deleteError)
+          console.warn(
+            "Failed to delete user's custom avatar on user deletion:",
+            deleteError.message
+          );
+      } catch (e) {
+        console.warn("Error during user's avatar deletion on user deletion:", e.message);
+      }
     }
 
     return res.status(200).json({

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils"; // or replace with your own `cn` helper
+import { cn } from "@/lib/utils";
 import { Package, Heart, User } from "lucide-react";
 
 const tabs = [

@@ -18,3 +18,18 @@ axiosInstance.interceptors.request.use(async (config) => {
   }
   return config;
 });
+
+export const updateAvatar = async (userId, file) => {
+  if (!userId) throw new Error("User ID is required");
+  if (!file) throw new Error("File is required");
+
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  const res = await axiosInstance.patch(`/users/${userId}/avatar`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+  };

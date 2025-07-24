@@ -5,8 +5,6 @@ import ProductSection from "./ProductSection";
 export default function HeroProductContainer() {
   return (
     <>
-      {/* I've scoped the background stripes to this container (Hero + Product)
-  to avoid unintended layout effects on other pages like Dashboard. */}
       <div className="z-0 w-screen grid grid-rows-2 absolute">
         <div className="w-full h-full overflow-clip">
           <div className="stripe"></div>
