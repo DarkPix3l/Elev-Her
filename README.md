@@ -2,7 +2,7 @@
 
 Elevate Her is an e-commerce concept focused on offering a user-friendly online store with curated sneakers designed specifically for women.
 
-![ElevHer_functional_demo](/public/readme/ElevHer_functional_demo_GretaM.gif)
+![ElevHer_functional_demo](frontend/public/readme/ElevHer_functional_demo_GretaM.gif)
 
 
 ## About This Project
@@ -14,7 +14,7 @@ While it’s still in 🚧 development, the foundation is solid — and the next
 - [ ] Dynamic product detail pages
 - [ ] Full checkout flow
 - [ ] Persistent cart and wishlist
-- [ ] Supabase image storage
+- [x] Supabase image storage
 - [ ] Email verification
 
 ...and many others.
@@ -58,7 +58,7 @@ While it’s still in 🚧 development, the foundation is solid — and the next
 
 It describes the steps and actors involved in each situation. The use case diagram is used as a basis for further design, implementation and testing of the software.
 
-![ElevHer use case](/public/readme/UseCase-ElevHer.png)
+![ElevHer use case](frontend/public/readme/UseCase-ElevHer.png)
 
 ---
 
@@ -67,7 +67,7 @@ It describes the steps and actors involved in each situation. The use case diagr
 A first design draft helped me conceptually shape the database schema & relationships.
 
 
-![Db Design](/public/readme/Db_Design-ElevHer.png)
+![Db Design](frontend/public/readme/Db_Design-ElevHer.png)
 
 
 ### Authentication
@@ -107,25 +107,25 @@ I resolved it by accessing the token properly, restructuring the session callbac
 ## Screenshots
 
 #### Homepage
-![Homepage](/public/readme/homepage.png)
+![Homepage](frontend/public/readme/homepage.png)
 
 #### Login Modal
-![Login Modal](/public/readme/loginModal.png)
+![Login Modal](frontend/public/readme/loginModal.png)
 
 #### Signup Modal
-![Signup Modal](/public/readme/signupModal.png)
+![Signup Modal](frontend/public/readme/signupModal.png)
 
 #### menu
-![menu](/public/readme/signupModal.png)
+![menu](frontend/public/readme/signupModal.png)
 
 #### Dashboard
-![Dashboard](/public/readme/userDashboard-products.png)
+![Dashboard](frontend/public/readme/userDashboard-products.png)
 
 #### Product Modal
-![Product Modal](/public/readme/productModal.png)
+![Product Modal](frontend/public/readme/productModal.png)
 
 #### Cart
-![cart](/public/readme/cart.png)
+![cart](frontend/public/readme/cart.png)
 
 
 ---
