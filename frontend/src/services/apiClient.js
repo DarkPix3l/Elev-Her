@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
-
+import { auth } from "@/app/auth";
 
 export const fetchProducts = async () => {
   const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH}/products`);
@@ -33,3 +33,22 @@ export const updateAvatar = async (userId, file) => {
   });
   return res.data;
   };
+
+export const getUserData = async () => {
+  const session = await auth();
+
+  if (!session?.accessToken || !session.user?.id) {
+    throw new Error("Not authenticated");
+  }
+ try {
+  const res = await axios.get(`${process.env.API_BASE_URL}/users/${session.user.id}`, {
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+    },
+  });
+  console.log(res.data)
+  return res.data;
+    } catch (error) {
+    throw new Error("Failed to fetch user data");
+  }
+};

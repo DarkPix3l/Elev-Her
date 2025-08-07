@@ -1,17 +1,7 @@
-"use client";
-
 import UserProfile from "@/components/UserDashboard/UserProfile";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getUserData } from "@/services/apiClient";
 
-export default function ProfilePage() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Your Profile</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <UserProfile />
-      </CardContent>
-    </Card>
-  );
+export default async function ProfilePage() {
+  const user = await getUserData();
+  return <>{user && <UserProfile user={user} />}</>;
 }

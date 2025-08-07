@@ -39,33 +39,18 @@ async function updateAvatar(userId, file, token) {
   }
 }
 
-export default function UserProfile() {
+export default function UserProfile({ user }) {
   const { data: session } = useSession();
   const userId = session?.user?.id;
-    const [avatarUrl, setAvatarUrl] = useState(
+  const [avatarUrl, setAvatarUrl] = useState(
     session?.user?.avatar || `${process.env.NEXT_PUBLIC_SUPABASE_AVATAR_URL}/user-profile.jpg`
   );
   const [uploading, setUploading] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    phone: "+1 (555) 123-4567",
-    address: {
-      street: "123 Main Street",
-      city: "New York",
-      state: "NY",
-      zipCode: "10001",
-      country: "United States",
-    },
-  });
 
   const handleSave = () => {
     setIsEditing(false);
-    // Here you would typically save to your backend
-    console.log("Profile saved:", profile);
   };
 
   const handleInputChange = (field, value) => {
@@ -86,56 +71,29 @@ export default function UserProfile() {
     }
   };
 
-const handleFileChange = async (e) => {
-  const file = e.target.files[0];
-  if (!file || !userId) return;
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file || !userId) return;
 
-  setUploading(true);
-  try {
-    const token = session?.accessToken || session?.user?.token; // depends on your session structure
-    if (!token) throw new Error("Not authenticated");
+    setUploading(true);
+    try {
+      const token = session?.accessToken || session?.user?.token;
+      if (!token) throw new Error("Not authenticated");
 
-    const res = await updateAvatar(userId, file, token);
-    setAvatarUrl(res.avatarUrl);
-    alert(res.message || "Avatar updated!");
-    await getSession({ strategy: "force-refresh" });
-  } catch (err) {
-    console.error(err);
-    alert("Failed to upload avatar: " + err.message);
-  } finally {
-    setUploading(false);
-  }
-};
+      const res = await updateAvatar(userId, file, token);
+      setAvatarUrl(res.avatarUrl);
+      alert(res.message || "Avatar updated!");
+      await getSession({ strategy: "force-refresh" });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to upload avatar: " + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
-      {/* Avatar */}
-      <div>
-        <img
-          src={avatarUrl || "Error Loading image"}
-          alt="User Avatar"
-          width={120}
-          height={120}
-          style={{ border: "1px solid white", borderRadius: "50%", objectFit: "cover", aspectRatio: "1/1", }}
-        />
-
-        <div>
-          <label
-            htmlFor="avatarUpload"
-            style={{ cursor: uploading ? "default" : "pointer", color: "blue" }}
-          >
-            {uploading ? "Uploading..." : "Change Avatar"}
-          </label>
-          <input
-            id="avatarUpload"
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-            disabled={uploading}
-          />
-        </div>
-      </div>
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
@@ -151,6 +109,38 @@ const handleFileChange = async (e) => {
             </Button>
           </div>
         </CardHeader>
+        {/* Avatar */}
+        <div className="px-6">
+          <img
+            src={avatarUrl || "Error Loading image"}
+            alt="User Avatar"
+            width={120}
+            height={120}
+            style={{
+              border: "1px solid white",
+              borderRadius: "50%",
+              objectFit: "cover",
+              aspectRatio: "1/1",
+            }}
+          />
+
+          <div>
+            <label
+              htmlFor="avatarUpload"
+              style={{ cursor: uploading ? "default" : "pointer", color: "blue" }}
+            >
+              {uploading ? "Uploading..." : "Change Avatar"}
+            </label>
+            <input
+              id="avatarUpload"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              disabled={uploading}
+            />
+          </div>
+        </div>
         <CardContent>
           <Tabs defaultValue="personal" className="space-y-4">
             <TabsList className="bg-gray-700">
@@ -168,13 +158,13 @@ const handleFileChange = async (e) => {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="personal" className="">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <TabsContent value="personal">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 m-0">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
                   <Input
                     id="firstName"
-                    value={profile.firstName}
+                    value={user?.name || ""}
                     onChange={(e) => handleInputChange("firstName", e.target.value)}
                     disabled={!isEditing}
                   />
@@ -183,7 +173,7 @@ const handleFileChange = async (e) => {
                   <Label htmlFor="lastName">Last Name</Label>
                   <Input
                     id="lastName"
-                    value={profile.lastName}
+                    value={user?.surname || ""}
                     onChange={(e) => handleInputChange("lastName", e.target.value)}
                     disabled={!isEditing}
                   />
@@ -193,12 +183,12 @@ const handleFileChange = async (e) => {
                   <Input
                     id="email"
                     type="email"
-                    value={profile.email}
+                    value={user?.email || ""}
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
                   <Input
                     id="phone"
@@ -206,46 +196,48 @@ const handleFileChange = async (e) => {
                     onChange={(e) => handleInputChange("phone", e.target.value)}
                     disabled={!isEditing}
                   />
-                </div>
+                </div> */}
               </div>
             </TabsContent>
 
             <TabsContent value="address" className="space-y-4">
-              <div className="space-y-4">
+              <div className="space-y-4 my-9">
+                <h3>Main Adress</h3>
+                <Separator className={"mb-9 border-b-2 rouded-2xl"} />
                 <div className="space-y-2">
                   <Label htmlFor="street">Street Address</Label>
                   <Input
                     id="street"
-                    value={profile.address.street}
+                    value={user?.address?.street || ""}
                     onChange={(e) => handleInputChange("address.street", e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
+                    <Label htmlFor="postalcode">ZIP Code</Label>
+                    <Input
+                      id="postalcode"
+                      value={user?.address?.postalCode || ""}
+                      onChange={(e) => handleInputChange("address.postalCode", e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="zipCode">Apartment</Label>
+                    <Input
+                      id="zipCode"
+                      value={user?.address?.apartment || ""}
+                      onChange={(e) => handleInputChange("address.apartment", e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  <div className="space-y-2">
                     <Label htmlFor="city">City</Label>
                     <Input
                       id="city"
-                      value={profile.address.city}
+                      value={user?.address?.city || ""}
                       onChange={(e) => handleInputChange("address.city", e.target.value)}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="state">State</Label>
-                    <Input
-                      id="state"
-                      value={profile.address.state}
-                      onChange={(e) => handleInputChange("address.state", e.target.value)}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="zipCode">ZIP Code</Label>
-                    <Input
-                      id="zipCode"
-                      value={profile.address.zipCode}
-                      onChange={(e) => handleInputChange("address.zipCode", e.target.value)}
                       disabled={!isEditing}
                     />
                   </div>
@@ -254,12 +246,66 @@ const handleFileChange = async (e) => {
                   <Label htmlFor="country">Country</Label>
                   <Input
                     id="country"
-                    value={profile.address.country}
+                    value={user?.address?.country || ""}
                     onChange={(e) => handleInputChange("address.country", e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
               </div>
+              <>
+                <h3>Shipping Adress</h3>
+                <Separator className={"mb-9 border-b-2 rouded-2xl"} />
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="street">Street Address</Label>
+                    <Input
+                      id="street"
+                      value={user?.address?.street || ""}
+                      onChange={(e) => handleInputChange("address.street", e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="postalcode">ZIP Code</Label>
+                      <Input
+                        id="postalcode"
+                        value={user?.address?.postalCode || ""}
+                        onChange={(e) => handleInputChange("address.postalCode", e.target.value)}
+                        disabled={!isEditing}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="zipCode">Apartment</Label>
+                      <Input
+                        id="zipCode"
+                        value={user?.address?.apartment || ""}
+                        onChange={(e) => handleInputChange("address.apartment", e.target.value)}
+                        disabled={!isEditing}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="city">City</Label>
+                      <Input
+                        id="city"
+                        value={user?.address?.city || ""}
+                        onChange={(e) => handleInputChange("address.city", e.target.value)}
+                        disabled={!isEditing}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="country">Country</Label>
+                    <Input
+                      id="country"
+                      value={user?.address?.country || ""}
+                      onChange={(e) => handleInputChange("address.country", e.target.value)}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                </div>
+              </>
             </TabsContent>
 
             <TabsContent value="payment" className="space-y-4">

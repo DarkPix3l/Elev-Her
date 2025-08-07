@@ -6,7 +6,7 @@ import ProductGrid from "@/components/UserDashboard/productGrd2";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { fetchProducts } from "@/services/product.apis";
+import { fetchProducts } from "@/services/apiClient";
 import useCartStore from "@/store/useCartStore";
 
 const categories = ["All", "inclusive-sizing", "model", "cut", "Skate"];
@@ -39,8 +39,7 @@ export default function ProductsPage() {
       product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.summary.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesCategory =
-      selectedCategory === "All" || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
