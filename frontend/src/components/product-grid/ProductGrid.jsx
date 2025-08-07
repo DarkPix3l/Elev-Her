@@ -1,5 +1,5 @@
 import ProductCard from "./ProductCard";
-import { fetchProducts } from '@/services/product.apis';
+import { fetchProducts } from '@/services/apiClient.js';
 
 export default async function ProductGrid() {
   const products = await fetchProducts();
