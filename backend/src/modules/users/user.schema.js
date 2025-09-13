@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, default: "" },
-    surname: { type: String, default: "" },
-    username: { type: String, default: "", required: true },
+    name: { type: String, default: '' },
+    surname: { type: String, default: '' },
+    username: { type: String, default: '', required: true },
     birthDate: {
       type: String,
       required: function () {
@@ -26,20 +26,20 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    avatar: { type: String, default: "" },
+    avatar: { type: String, default: '' },
     address: {
-      street: { type: String, default: "" },
-      apartment: { type: String, default: "" },
-      city: { type: String, default: "" },
-      postalCode: { type: String, default: "" },
-      country: { type: String, default: "" },
+      street: { type: String, default: '' },
+      apartment: { type: String, default: '' },
+      city: { type: String, default: '' },
+      postalCode: { type: String, default: '' },
+      country: { type: String, default: '' },
     },
     shippingAddress: {
-      street: { type: String, default: "" },
-      apartment: { type: String, default: "" },
-      city: { type: String, default: "" },
-      postalCode: { type: String, default: "" },
-      country: { type: String, default: "" },
+      street: { type: String, default: '' },
+      apartment: { type: String, default: '' },
+      city: { type: String, default: '' },
+      postalCode: { type: String, default: '' },
+      country: { type: String, default: '' },
     },
     verified: {
       type: Boolean,
@@ -48,11 +48,11 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["client", "admin"],
-      default: "client",
+      enum: ['client', 'admin'],
+      default: 'client',
     },
-    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   },
   { timestamps: true }
 );
@@ -61,12 +61,12 @@ const userSchema = new mongoose.Schema(
 // representation of the MongoDB '_id', which is typically an ObjectId.
 // It's useful for frontends and APIs that prefer 'id' over '_id'.
 
-userSchema.virtual("id").get(function () {
+userSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-userSchema.set("toJSON", {
+userSchema.set('toJSON', {
   virtuals: true,
 });
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model('User', userSchema);

@@ -1,8 +1,8 @@
-import bcrypt from "bcryptjs";
-import User from "../users/user.schema.js";
-import jwt from "jsonwebtoken";
-import { JWT_KEY, GOOGLE_CLIENT_ID_BACKEND } from "../../config/variable.js";
-import { OAuth2Client } from "google-auth-library";
+import bcrypt from 'bcryptjs';
+import User from '../users/user.schema.js';
+import jwt from 'jsonwebtoken';
+import { JWT_KEY, GOOGLE_CLIENT_ID_BACKEND } from '../../config/variable.js';
+import { OAuth2Client } from 'google-auth-library';
 
 export const signup = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ export const signup = async (req, res) => {
     if (existingUser) {
       return res.status(401).json({
         success: false,
-        message: "invalid email or pwd",
+        message: 'invalid email or pwd',
       });
     }
 
@@ -28,16 +28,16 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       birthDate,
     });
-    
+
     res.status(201).json({
       success: true,
-      message: "User created successfully!",
+      message: 'User created successfully!',
     });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: 'Server Error',
     });
   }
 };
@@ -46,7 +46,7 @@ export const login = async (req, res) => {
   try {
     //requesting email and pass from the form field
     let { email, password } = req.body;
-  
+
     let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "User doesn't have an account" });
@@ -55,17 +55,17 @@ export const login = async (req, res) => {
     //Then i will hash the password (again) and compare it with the one stored in the db.
     let isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
     //Generating a token
     let id = user._id;
     let token = jwt.sign({ id }, JWT_KEY, {
-      expiresIn: "7d",
+      expiresIn: '7d',
     });
 
     res.status(200).json({
       success: true,
-      message: "Logged in successfully",
+      message: 'Logged in successfully',
       token,
       user: {
         id: user._id,
@@ -75,10 +75,8 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login error:", error);
-    res
-      .status(500)
-      .json({ error: "An unexpected error occurred during login." });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'An unexpected error occurred during login.' });
   }
 };
 
@@ -96,9 +94,7 @@ export const googleAuth = async (req, res) => {
     const { sub, email, name, picture } = payload;
 
     if (!email) {
-      return res
-        .status(400)
-        .json({ message: "Invalid Google token: email missing." });
+      return res.status(400).json({ message: 'Invalid Google token: email missing.' });
     }
 
     // Check if user exists
@@ -115,7 +111,7 @@ export const googleAuth = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id }, JWT_KEY, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, JWT_KEY, { expiresIn: '7d' });
 
     res.status(200).json({
       success: true,
@@ -128,7 +124,7 @@ export const googleAuth = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Google auth error:", err.message);
-    res.status(500).json({ message: "Google authentication failed." });
+    console.error('Google auth error:', err.message);
+    res.status(500).json({ message: 'Google authentication failed.' });
   }
 };

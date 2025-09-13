@@ -1,10 +1,10 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 export const createProductSchema = Joi.object({
   title: Joi.string().min(3).max(100).required(),
   slug: Joi.string().trim().required(),
-  summary: Joi.string().allow("", null),
-  description: Joi.string().allow("", null),
+  summary: Joi.string().allow('', null),
+  description: Joi.string().allow('', null),
   price: Joi.number().positive().required(),
   oldPrice: Joi.number().min(0).default(0),
   inStock: Joi.boolean().required(),
@@ -21,11 +21,10 @@ export const createProductSchema = Joi.object({
   averageRating: Joi.number().min(0).max(5).default(0),
   reviewCount: Joi.number().integer().min(0).default(0),
 
-  metaTitle: Joi.string().allow("", null),
-  metaDescription: Joi.string().allow("", null),
+  metaTitle: Joi.string().allow('', null),
+  metaDescription: Joi.string().allow('', null),
   metaKeywords: Joi.array().items(Joi.string().trim()).default([]),
 });
-
 
 export const updateProductSchema = createProductSchema.fork(
   Object.keys(createProductSchema.describe().keys),
