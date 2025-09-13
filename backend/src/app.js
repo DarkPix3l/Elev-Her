@@ -1,7 +1,6 @@
 import express from "express";
 import { startDatabase } from "./config/db.js";
-import { API_URL } from "./config/variable.js";
-import { PORT } from "./config/variable.js";
+import { API_URL, PORT, FRONTEND } from "./config/variable.js";
 import cors from "cors";
 import productsRoutes from "./modules/products/products.routes.js";
 import usersRoutes from "./modules/users/users.routes.js"
@@ -12,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 startDatabase();
-app.use(cors());
+app.use(cors({origin: FRONTEND}));
 
 app.use(`${API_URL}/products`, productsRoutes);
 app.use(`${API_URL}/users`, usersRoutes);
