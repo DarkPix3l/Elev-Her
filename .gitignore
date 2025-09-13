@@ -22,6 +22,9 @@ frontend/.vercel/
 frontend/*.tsbuildinfo
 frontend/next-env.d.ts
 
+# misc
+frontend/.prettierrc
+
 # -------------------------
 # BACKEND
 # -------------------------
@@ -29,6 +32,7 @@ frontend/next-env.d.ts
 backend/node_modules/
 backend/dist/
 backend/build/
+backend/.prettierrc
 
 # Env files
 backend/.env
