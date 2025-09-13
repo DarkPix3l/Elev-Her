@@ -1,17 +1,13 @@
-'use client'
+'use client';
 
-import { Star } from 'lucide-react'
+import { Star } from 'lucide-react';
 
-export default function StarRating({
-  totalStars = 5,
-  size = 24,
-  averageRating = 0,
-}) {
+export default function StarRating({ totalStars = 5, size = 24, averageRating = 0 }) {
   return (
     <div className="flex gap-1">
       {Array.from({ length: totalStars }, (_, index) => {
-        const filled = index < Math.floor(averageRating)
-        const halfFilled = index < averageRating && index >= Math.floor(averageRating)
+        const filled = index < Math.floor(averageRating);
+        const halfFilled = index < averageRating && index >= Math.floor(averageRating);
 
         return (
           <Star
@@ -21,12 +17,12 @@ export default function StarRating({
               filled
                 ? 'fill-black text-black'
                 : halfFilled
-                ? 'fill-black text-gray-300'
-                : 'text-gray-300'
+                  ? 'fill-black text-gray-300'
+                  : 'text-gray-300'
             }`}
           />
-        )
+        );
       })}
     </div>
-  )
+  );
 }

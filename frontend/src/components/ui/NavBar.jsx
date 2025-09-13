@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { CiGlobe } from "react-icons/ci";
-import { IoCartOutline } from "react-icons/io5";
-import { Button } from "./Button.jsx";
-import Style from "./NavBar.module.css";
-import { useState } from "react";
-import { CardDemo } from "./LoginModal.jsx";
-import Hmenu from "./Hmenu.jsx";
-import { useSidenav } from "@/hooks/useSidenav.js";
-import { useAuthModalStore } from "@/store/authModalStore.js";
-import useCartStore from "@/store/useCartStore";
-import ShoppingCartPanel from "@/components/UserDashboard/ShoppingCartPanel";
-import { Badge } from "@/components/ui/badge";
-import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
-import SignInModal from "./SignUPModal.jsx";
-import Image from "next/image.js";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { CiGlobe } from 'react-icons/ci';
+import { IoCartOutline } from 'react-icons/io5';
+import { Button } from './Button.jsx';
+import Style from './NavBar.module.css';
+import { useState } from 'react';
+import { CardDemo } from './LoginModal.jsx';
+import Hmenu from './Hmenu.jsx';
+import { useSidenav } from '@/hooks/useSidenav.js';
+import { useAuthModalStore } from '@/store/authModalStore.js';
+import useCartStore from '@/store/useCartStore';
+import ShoppingCartPanel from '@/components/UserDashboard/ShoppingCartPanel';
+import { Badge } from '@/components/ui/badge';
+import { signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import SignInModal from './SignUPModal.jsx';
+import Image from 'next/image.js';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const { openModal } = useAuthModalStore();
@@ -34,15 +34,12 @@ export default function Navbar() {
     triggerRef,
   } = useSidenav();
 
-  const cartItemsCount = cartItems.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
+  const cartItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const { data: session, status } = useSession();
- /*  console.log({ session, status }); */
+  /*  console.log({ session, status }); */
 
   const pathname = usePathname();
-  const isDashboard = pathname.startsWith("/dashboard");
+  const isDashboard = pathname.startsWith('/dashboard');
 
   return (
     <div className="navbar bg-[var(--navbar-bg)] p-2 shadow-[var(--shadow-custom)] z-10 fixed w-full">
@@ -80,14 +77,12 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <span className="ml-2 hidden lg:flex">
-                Welcome, {session.user?.name || "User"}
-              </span>
+              <span className="ml-2 hidden lg:flex">Welcome, {session.user?.name || 'User'}</span>
 
               {session.user.avatar && (
                 <Image
                   src={session.user.avatar}
-                  alt={session.user.name || "Avatar"}
+                  alt={session.user.name || 'Avatar'}
                   width={30}
                   height={30}
                   className="rounded-full"
@@ -100,14 +95,8 @@ export default function Navbar() {
             </>
           )}
           {/* Hamburger menu */}
-          <div
-            className="cursor-pointer"
-            onClick={toggleSidenav}
-            ref={triggerRef}
-          >
-            {!isDashboard && (
-              <GiHamburgerMenu size={25} className="hide cursor-pointer" />
-            )}
+          <div className="cursor-pointer" onClick={toggleSidenav} ref={triggerRef}>
+            {!isDashboard && <GiHamburgerMenu size={25} className="hide cursor-pointer" />}
           </div>
         </nav>
       </div>

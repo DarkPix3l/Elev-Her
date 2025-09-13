@@ -1,6 +1,6 @@
-import React from "react";
-import HeroSection from "./HeroSection";
-import ProductSection from "./ProductSection";
+import React from 'react';
+import HeroSection from './HeroSection';
+import ProductSection from './ProductSection';
 
 export default function HeroProductContainer() {
   return (

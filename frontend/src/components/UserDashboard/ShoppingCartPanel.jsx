@@ -1,16 +1,22 @@
-"use client";
+'use client';
 
-import { X, Plus, Minus, ShoppingBag } from "lucide-react"
-import { Button } from "@/components/ui/Button"
-import { Badge } from "@/components/ui/badge"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import { Separator } from "@/components/ui/separator"
+import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
 
-export default function ShoppingCartPanel({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity }) {
-  const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
-  const tax = subtotal * 0.20
-  const shipping = subtotal > 100 ? 0 : 10
-  const total = subtotal + tax + shipping
+export default function ShoppingCartPanel({
+  isOpen,
+  onClose,
+  cartItems,
+  onRemoveItem,
+  onUpdateQuantity,
+}) {
+  const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const tax = subtotal * 0.2;
+  const shipping = subtotal > 100 ? 0 : 10;
+  const total = subtotal + tax + shipping;
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -34,7 +40,7 @@ export default function ShoppingCartPanel({ isOpen, onClose, cartItems, onRemove
                 {cartItems.map((item) => (
                   <div key={item.cartId} className="flex gap-4 p-4 border rounded-lg">
                     <img
-                      src={item.mainImage || "/placeholder.svg"}
+                      src={item.mainImage || '/placeholder.svg'}
                       alt={item.title}
                       className="w-16 h-16 object-cover rounded"
                     />
@@ -99,7 +105,7 @@ export default function ShoppingCartPanel({ isOpen, onClose, cartItems, onRemove
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? "Free" : `€€{shipping.toFixed(2)}`}</span>
+                  <span>{shipping === 0 ? 'Free' : `€€{shipping.toFixed(2)}`}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-bold text-lg">
@@ -116,5 +122,5 @@ export default function ShoppingCartPanel({ isOpen, onClose, cartItems, onRemove
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Search } from "lucide-react";
-import ProductGrid from "@/components/UserDashboard/productGrd2";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { fetchProducts } from "@/services/apiClient";
-import useCartStore from "@/store/useCartStore";
+import { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
+import ProductGrid from '@/components/UserDashboard/productGrd2';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { fetchProducts } from '@/services/apiClient';
+import useCartStore from '@/store/useCartStore';
 
-const categories = ["All", "inclusive-sizing", "model", "cut", "Skate"];
+const categories = ['All', 'inclusive-sizing', 'model', 'cut', 'Skate'];
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addToCart } = useCartStore();
@@ -39,7 +39,7 @@ export default function ProductsPage() {
       product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.summary.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
@@ -64,7 +64,7 @@ export default function ProductsPage() {
             {categories.map((category) => (
               <Button
                 key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
+                variant={selectedCategory === category ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setSelectedCategory(category)}
               >

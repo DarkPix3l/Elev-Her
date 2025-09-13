@@ -1,10 +1,7 @@
-"use client";
+'use client';
 
-import OrderHistory from "@/components/UserDashboard/OrderHistory";
-
+import OrderHistory from '@/components/UserDashboard/OrderHistory';
 
 export default function OrdersPage() {
-  return (
-    <OrderHistory />
-  );
-} 
+  return <OrderHistory />;
+}

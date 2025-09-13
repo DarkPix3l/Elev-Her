@@ -1,4 +1,4 @@
-.why_choose_us{
+.why_choose_us {
   background: var(--gradient-bg-inv);
   padding: 10rem 0;
 }
@@ -9,7 +9,7 @@
 }
 
 .whyChooseUs_message::before {
-  content: "<<°";
+  content: '<<°';
   position: absolute;
   font-size: 15rem;
   color: rgb(56, 55, 88);
@@ -17,16 +17,14 @@
   z-index: -1;
 }
 
-
 @media (max-width: 768px) {
-  .why_choose_us{
-  padding: 5rem 0;
-}
+  .why_choose_us {
+    padding: 5rem 0;
+  }
 
-.whyChooseUs_message::before {
-  font-size: 10rem;
-  top: 0;
-  left: 0rem;
-}
-
+  .whyChooseUs_message::before {
+    font-size: 10rem;
+    top: 0;
+    left: 0rem;
+  }
 }

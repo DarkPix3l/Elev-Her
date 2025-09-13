@@ -1,11 +1,11 @@
-"use client";
-import Image from "next/image";
-import StarRating from "@/components/ui/StarRating";
-import { AddToCartButton } from "../ui/AddToCartButton";
-import ProductDialogContent from "../ui/product_dialog/ProductDialogContent";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import useProductDialogStore from "@/store/useProductDialogStore";
-import useCartStore from "@/store/useCartStore";
+'use client';
+import Image from 'next/image';
+import StarRating from '@/components/ui/StarRating';
+import { AddToCartButton } from '../ui/AddToCartButton';
+import ProductDialogContent from '../ui/product_dialog/ProductDialogContent';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import useProductDialogStore from '@/store/useProductDialogStore';
+import useCartStore from '@/store/useCartStore';
 
 export default function ProductCard({ product }) {
   const {
@@ -44,9 +44,7 @@ export default function ProductCard({ product }) {
 
           <StarRating averageRating={product.averageRating} />
         </div>
-        <p className="text-black self-center justify-self-end font-bold">
-          {product.price} €
-        </p>
+        <p className="text-black self-center justify-self-end font-bold">{product.price} €</p>
         {
           <Dialog modal={true}>
             <DialogTrigger asChild>

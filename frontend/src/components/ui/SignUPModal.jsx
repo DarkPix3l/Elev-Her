@@ -1,6 +1,6 @@
-"use client";
-import { useState } from "react";
-import { Button } from "@/components/ui/Button";
+'use client';
+import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import {
   Dialog,
   DialogClose,
@@ -11,20 +11,20 @@ import {
   DialogOverlay,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
-import { signup, loginWithGoogle } from "@/actions/auth";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useForm } from 'react-hook-form';
+import { signup, loginWithGoogle } from '@/actions/auth';
 
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "@/actions/authSchema";
-import { toast } from "sonner";
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signupSchema } from '@/actions/authSchema';
+import { toast } from 'sonner';
 
 export default function SignUPModal() {
   const {
@@ -34,9 +34,9 @@ export default function SignUPModal() {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: '',
       birthDate: undefined,
     },
     resolver: zodResolver(signupSchema),
@@ -45,11 +45,11 @@ export default function SignUPModal() {
 
   const onDateChange = (selectedDate) => {
     setBirthDate(selectedDate);
-    setValue("birthDate", selectedDate, { shouldValidate: true });
+    setValue('birthDate', selectedDate, { shouldValidate: true });
   };
 
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState({ success: false, message: "" });
+  const [status, setStatus] = useState({ success: false, message: '' });
 
   async function handleSignup(data) {
     const result = await signup(data);
@@ -57,31 +57,31 @@ export default function SignUPModal() {
     if (result.success) {
       setStatus({ success: true, message: result.message });
       toast.success(result.message, {
-        id: "signup-success",
+        id: 'signup-success',
         style: {
-          background: "var(--navbar-bg)",
-          color: "var(--chart-2a)",
-          fontSize: "18px",
-          borderColor: "var(--chart-2a)",
+          background: 'var(--navbar-bg)',
+          color: 'var(--chart-2a)',
+          fontSize: '18px',
+          borderColor: 'var(--chart-2a)',
         },
       });
 
       setTimeout(() => {
         setOpen(false);
-        setStatus({ success: false, message: "" }); // Optional: reset state
+        setStatus({ success: false, message: '' }); // Optional: reset state
       }, 1500);
     } else {
       setStatus({
         success: false,
         message: result.error,
       });
-      toast.error(result.message || "Failed to register", {
-        id: "signup-error",
+      toast.error(result.message || 'Failed to register', {
+        id: 'signup-error',
         style: {
-          background: "var(--navbar-bg)",
-          color: "var(--chart-5)",
-          fontSize: "18px",
-          borderColor: "var(--chart-5)",
+          background: 'var(--navbar-bg)',
+          color: 'var(--chart-5)',
+          fontSize: '18px',
+          borderColor: 'var(--chart-5)',
         },
       });
     }
@@ -109,7 +109,7 @@ export default function SignUPModal() {
                 id="username"
                 type="text"
                 placeholder="m@example.com"
-                {...register("username")}
+                {...register('username')}
                 disabled={isSubmitting}
                 autoComplete="username"
               />
@@ -123,7 +123,7 @@ export default function SignUPModal() {
                 id="signup-email"
                 type="email"
                 placeholder="m@example.com"
-                {...register("email")}
+                {...register('email')}
                 disabled={isSubmitting}
                 autoComplete="email"
               />
@@ -136,7 +136,7 @@ export default function SignUPModal() {
                 id="signup-password"
                 type="password"
                 placeholder="••••••••"
-                {...register("password")}
+                {...register('password')}
                 disabled={isSubmitting}
                 autoComplete="new-password"
               />
@@ -149,10 +149,10 @@ export default function SignUPModal() {
                 <PopoverTrigger asChild>
                   <Button
                     id="birthDate"
-                    variant={"outline"}
-                    className={cn("w-full pl-3 text-left font-normal", "text-muted-foreground")}
+                    variant={'outline'}
+                    className={cn('w-full pl-3 text-left font-normal', 'text-muted-foreground')}
                   >
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    {date ? format(date, 'PPP') : <span>Pick a date</span>}
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -161,7 +161,7 @@ export default function SignUPModal() {
                     mode="single"
                     selected={date}
                     onSelect={onDateChange}
-                    disabled={(d) => d > new Date() || d < new Date("1900-01-01")}
+                    disabled={(d) => d > new Date() || d < new Date('1900-01-01')}
                     captionLayout="dropdown"
                   />
                 </PopoverContent>
@@ -195,7 +195,7 @@ export default function SignUPModal() {
                   />
                 </svg>
               ) : (
-                "Submit"
+                'Submit'
               )}
             </Button>
             <Button variant="" className="w-full" onClick={loginWithGoogle} disabled={isSubmitting}>

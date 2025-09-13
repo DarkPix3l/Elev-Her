@@ -5,13 +5,14 @@ export const useAuthModalStore = create((set, get) => ({
   shouldRender: false,
   timeoutId: null,
 
-  openModal: () => set(state => {
-    if (state.timeoutId) {
-      clearTimeout(state.timeoutId);
-      return { isOpen: true, shouldRender: true, timeoutId: null };
-    }
-    return { isOpen: true, shouldRender: true };
-  }),
+  openModal: () =>
+    set((state) => {
+      if (state.timeoutId) {
+        clearTimeout(state.timeoutId);
+        return { isOpen: true, shouldRender: true, timeoutId: null };
+      }
+      return { isOpen: true, shouldRender: true };
+    }),
 
   closeModal: () => {
     const state = get();

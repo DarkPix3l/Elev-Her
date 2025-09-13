@@ -1,5 +1,5 @@
-import { Button } from "../ui/Button";
-import Link from "next/link";
+import { Button } from '../ui/Button';
+import Link from 'next/link';
 
 export default function HeroSection() {
   const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -12,7 +12,7 @@ export default function HeroSection() {
               <p>Neque porro quisquam est qui dolorem ipsum quia</p>
 
               <div>
-                {" "}
+                {' '}
                 <h1 className="mb-3 lg:text-7xl">Fly Higher, Every Step!</h1>
                 <p>
                   Step into the legend. Own the court, own the streets. Wear the legacy. Play the

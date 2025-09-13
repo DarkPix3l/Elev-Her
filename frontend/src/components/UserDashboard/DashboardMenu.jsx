@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Package, Heart, User } from "lucide-react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { Package, Heart, User } from 'lucide-react';
 
 const tabs = [
-  { href: "/dashboard/products", label: "Products", icon: Package },
-  { href: "/dashboard/orders", label: "Orders", icon: Package },
-  { href: "/dashboard/wishlist", label: "Wishlist", icon: Heart },
-  { href: "/dashboard/profile", label: "Profile", icon: User },
+  { href: '/dashboard/products', label: 'Products', icon: Package },
+  { href: '/dashboard/orders', label: 'Orders', icon: Package },
+  { href: '/dashboard/wishlist', label: 'Wishlist', icon: Heart },
+  { href: '/dashboard/profile', label: 'Profile', icon: User },
 ];
 
 export default function DashboardMenu() {
@@ -27,9 +27,9 @@ export default function DashboardMenu() {
               href={href}
               className={cn(
                 "inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-5 py-5 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5",
-                "text-[#ff7c8e] dark:text-white",
+                'text-[#ff7c8e] dark:text-white',
                 isActive &&
-                  "bg-background text-[#ff7c8e] dark:text-[#ff7c8e] dark:border-input dark:bg-input/30 shadow-sm",
+                  'bg-background text-[#ff7c8e] dark:text-[#ff7c8e] dark:border-input dark:bg-input/30 shadow-sm'
               )}
             >
               <Icon className="h-4 w-4" />

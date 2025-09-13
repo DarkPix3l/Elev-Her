@@ -8,7 +8,7 @@ export const useSidenav = () => {
   const triggerRef = useRef(null);
 
   const toggleSidenav = useCallback(() => {
-    setIsOpen(prev => !prev);
+    setIsOpen((prev) => !prev);
   }, []);
 
   const openSidenav = useCallback(() => {

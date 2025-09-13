@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Style from "./WhyChooseUs.module.css";
+import Image from 'next/image';
+import Style from './WhyChooseUs.module.css';
 
 export default function WhyChooseUsSection() {
   const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -7,17 +7,17 @@ export default function WhyChooseUsSection() {
   return (
     <section id="choose-us" className={Style.why_choose_us}>
       <div className="wrapper">
-
         <div className="w-full flex flex-col md:grid md:grid-cols-6 gap-2 md:h-[550px]">
-          <div className={`${Style.whyChooseUs_message } md:col-span-7 md:p-8 py-8 lg:col-span-3 lg:row-span-2 `}>
+          <div
+            className={`${Style.whyChooseUs_message} md:col-span-7 md:p-8 py-8 lg:col-span-3 lg:row-span-2 `}
+          >
             <h2 className="font-extrabold text-white text-3xl xl:text-6xl">
               WHY CHOOSE<span className="text-[#ff7c8e] text-6xl lg:text-8xl block"> US</span>
             </h2>
             <p className="text-base leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
           {/* Image: edge */}
@@ -33,7 +33,7 @@ export default function WhyChooseUsSection() {
           </div>
           {/* Image: lots of shoes */}
           <div className="col-span-2 row-span-2 md:col-start-5 overflow-hidden shadow-lg z-1">
-            {" "}
+            {' '}
             <Image
               src={`${baseURL}why-choose-us/school-aden-2284257_1920.jpg`}
               alt="Shoes on shelf"

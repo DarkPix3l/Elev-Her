@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { User, CreditCard } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { useSession, getSession } from "next-auth/react";
+import { useState, useEffect } from 'react';
+import { User, CreditCard } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
+import { useSession, getSession } from 'next-auth/react';
 
 async function updateAvatar(userId, file, token) {
   const formData = new FormData();
-  formData.append("avatar", file);
+  formData.append('avatar', file);
 
   const nextAuthUrl = process.env.NEXT_PUBLIC_NEXTAUTH;
 
   const response = await fetch(`${nextAuthUrl}/users/${userId}/avatar`, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -25,17 +25,17 @@ async function updateAvatar(userId, file, token) {
   });
 
   const text = await response.text();
-  console.log("Raw response text:", text);
+  console.log('Raw response text:', text);
 
   try {
     const json = JSON.parse(text);
     if (!response.ok) {
-      throw new Error(json.message || "Failed to upload avatar");
+      throw new Error(json.message || 'Failed to upload avatar');
     }
     return json;
   } catch (err) {
-    console.error("Could not parse JSON from response:", text);
-    throw new Error("Unexpected response from server.");
+    console.error('Could not parse JSON from response:', text);
+    throw new Error('Unexpected response from server.');
   }
 }
 
@@ -54,8 +54,8 @@ export default function UserProfile({ user }) {
   };
 
   const handleInputChange = (field, value) => {
-    if (field.includes(".")) {
-      const [parent, child] = field.split(".");
+    if (field.includes('.')) {
+      const [parent, child] = field.split('.');
       setProfile((prev) => ({
         ...prev,
         [parent]: {
@@ -78,15 +78,15 @@ export default function UserProfile({ user }) {
     setUploading(true);
     try {
       const token = session?.accessToken || session?.user?.token;
-      if (!token) throw new Error("Not authenticated");
+      if (!token) throw new Error('Not authenticated');
 
       const res = await updateAvatar(userId, file, token);
       setAvatarUrl(res.avatarUrl);
-      alert(res.message || "Avatar updated!");
-      await getSession({ strategy: "force-refresh" });
+      alert(res.message || 'Avatar updated!');
+      await getSession({ strategy: 'force-refresh' });
     } catch (err) {
       console.error(err);
-      alert("Failed to upload avatar: " + err.message);
+      alert('Failed to upload avatar: ' + err.message);
     } finally {
       setUploading(false);
     }
@@ -102,41 +102,41 @@ export default function UserProfile({ user }) {
               Profile Settings
             </CardTitle>
             <Button
-              variant={isEditing ? "default" : "outline"}
+              variant={isEditing ? 'default' : 'outline'}
               onClick={isEditing ? handleSave : () => setIsEditing(true)}
             >
-              {isEditing ? "Save Changes" : "Edit Profile"}
+              {isEditing ? 'Save Changes' : 'Edit Profile'}
             </Button>
           </div>
         </CardHeader>
         {/* Avatar */}
         <div className="px-6">
           <img
-            src={avatarUrl || "Error Loading image"}
+            src={avatarUrl || 'Error Loading image'}
             alt="User Avatar"
             width={120}
             height={120}
             style={{
-              border: "1px solid white",
-              borderRadius: "50%",
-              objectFit: "cover",
-              aspectRatio: "1/1",
+              border: '1px solid white',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              aspectRatio: '1/1',
             }}
           />
 
           <div>
             <label
               htmlFor="avatarUpload"
-              style={{ cursor: uploading ? "default" : "pointer", color: "blue" }}
+              style={{ cursor: uploading ? 'default' : 'pointer', color: 'blue' }}
             >
-              {uploading ? "Uploading..." : "Change Avatar"}
+              {uploading ? 'Uploading...' : 'Change Avatar'}
             </label>
             <input
               id="avatarUpload"
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               disabled={uploading}
             />
           </div>
@@ -164,8 +164,8 @@ export default function UserProfile({ user }) {
                   <Label htmlFor="firstName">First Name</Label>
                   <Input
                     id="firstName"
-                    value={user?.name || ""}
-                    onChange={(e) => handleInputChange("firstName", e.target.value)}
+                    value={user?.name || ''}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
@@ -173,8 +173,8 @@ export default function UserProfile({ user }) {
                   <Label htmlFor="lastName">Last Name</Label>
                   <Input
                     id="lastName"
-                    value={user?.surname || ""}
-                    onChange={(e) => handleInputChange("lastName", e.target.value)}
+                    value={user?.surname || ''}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
@@ -183,8 +183,8 @@ export default function UserProfile({ user }) {
                   <Input
                     id="email"
                     type="email"
-                    value={user?.email || ""}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    value={user?.email || ''}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
@@ -203,13 +203,13 @@ export default function UserProfile({ user }) {
             <TabsContent value="address" className="space-y-4">
               <div className="space-y-4 my-9">
                 <h3>Main Adress</h3>
-                <Separator className={"mb-9 border-b-2 rouded-2xl"} />
+                <Separator className={'mb-9 border-b-2 rouded-2xl'} />
                 <div className="space-y-2">
                   <Label htmlFor="street">Street Address</Label>
                   <Input
                     id="street"
-                    value={user?.address?.street || ""}
-                    onChange={(e) => handleInputChange("address.street", e.target.value)}
+                    value={user?.address?.street || ''}
+                    onChange={(e) => handleInputChange('address.street', e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
@@ -218,8 +218,8 @@ export default function UserProfile({ user }) {
                     <Label htmlFor="postalcode">ZIP Code</Label>
                     <Input
                       id="postalcode"
-                      value={user?.address?.postalCode || ""}
-                      onChange={(e) => handleInputChange("address.postalCode", e.target.value)}
+                      value={user?.address?.postalCode || ''}
+                      onChange={(e) => handleInputChange('address.postalCode', e.target.value)}
                       disabled={!isEditing}
                     />
                   </div>
@@ -227,8 +227,8 @@ export default function UserProfile({ user }) {
                     <Label htmlFor="zipCode">Apartment</Label>
                     <Input
                       id="zipCode"
-                      value={user?.address?.apartment || ""}
-                      onChange={(e) => handleInputChange("address.apartment", e.target.value)}
+                      value={user?.address?.apartment || ''}
+                      onChange={(e) => handleInputChange('address.apartment', e.target.value)}
                       disabled={!isEditing}
                     />
                   </div>
@@ -236,8 +236,8 @@ export default function UserProfile({ user }) {
                     <Label htmlFor="city">City</Label>
                     <Input
                       id="city"
-                      value={user?.address?.city || ""}
-                      onChange={(e) => handleInputChange("address.city", e.target.value)}
+                      value={user?.address?.city || ''}
+                      onChange={(e) => handleInputChange('address.city', e.target.value)}
                       disabled={!isEditing}
                     />
                   </div>
@@ -246,23 +246,23 @@ export default function UserProfile({ user }) {
                   <Label htmlFor="country">Country</Label>
                   <Input
                     id="country"
-                    value={user?.address?.country || ""}
-                    onChange={(e) => handleInputChange("address.country", e.target.value)}
+                    value={user?.address?.country || ''}
+                    onChange={(e) => handleInputChange('address.country', e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
               </div>
               <>
                 <h3>Shipping Adress</h3>
-                <Separator className={"mb-9 border-b-2 rouded-2xl"} />
+                <Separator className={'mb-9 border-b-2 rouded-2xl'} />
 
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="street">Street Address</Label>
                     <Input
                       id="street"
-                      value={user?.address?.street || ""}
-                      onChange={(e) => handleInputChange("address.street", e.target.value)}
+                      value={user?.address?.street || ''}
+                      onChange={(e) => handleInputChange('address.street', e.target.value)}
                       disabled={!isEditing}
                     />
                   </div>
@@ -271,8 +271,8 @@ export default function UserProfile({ user }) {
                       <Label htmlFor="postalcode">ZIP Code</Label>
                       <Input
                         id="postalcode"
-                        value={user?.address?.postalCode || ""}
-                        onChange={(e) => handleInputChange("address.postalCode", e.target.value)}
+                        value={user?.address?.postalCode || ''}
+                        onChange={(e) => handleInputChange('address.postalCode', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -280,8 +280,8 @@ export default function UserProfile({ user }) {
                       <Label htmlFor="zipCode">Apartment</Label>
                       <Input
                         id="zipCode"
-                        value={user?.address?.apartment || ""}
-                        onChange={(e) => handleInputChange("address.apartment", e.target.value)}
+                        value={user?.address?.apartment || ''}
+                        onChange={(e) => handleInputChange('address.apartment', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -289,8 +289,8 @@ export default function UserProfile({ user }) {
                       <Label htmlFor="city">City</Label>
                       <Input
                         id="city"
-                        value={user?.address?.city || ""}
-                        onChange={(e) => handleInputChange("address.city", e.target.value)}
+                        value={user?.address?.city || ''}
+                        onChange={(e) => handleInputChange('address.city', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -299,8 +299,8 @@ export default function UserProfile({ user }) {
                     <Label htmlFor="country">Country</Label>
                     <Input
                       id="country"
-                      value={user?.address?.country || ""}
-                      onChange={(e) => handleInputChange("address.country", e.target.value)}
+                      value={user?.address?.country || ''}
+                      onChange={(e) => handleInputChange('address.country', e.target.value)}
                       disabled={!isEditing}
                     />
                   </div>

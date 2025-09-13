@@ -1,18 +1,14 @@
-"use client";
+'use client';
 
-import {
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/Button";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/Button';
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 export default function ProductDialogContent({
   product,
@@ -30,7 +26,7 @@ export default function ProductDialogContent({
       <div className="space-y-4">
         <h2>{product.title}</h2>
         <img
-          src={product.mainImage || "/placeholder.svg"}
+          src={product.mainImage || '/placeholder.svg'}
           alt={product.title}
           className="w-[80%] h-64 object-cover rounded-lg mx-auto"
         />

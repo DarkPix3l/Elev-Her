@@ -1,5 +1,5 @@
-import Image from "next/image.js";
-import Style from "./ExploreSection.module.css";
+import Image from 'next/image.js';
+import Style from './ExploreSection.module.css';
 
 export default function ExploreSection() {
   const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -62,7 +62,7 @@ export default function ExploreSection() {
               </p>
             </div>
           </div>
-        </div>{" "}
+        </div>{' '}
         {/* griglia */}
       </div>
     </section>

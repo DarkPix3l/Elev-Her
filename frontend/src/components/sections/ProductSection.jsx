@@ -8,15 +8,12 @@
   PaginationPrevious,
 } from "@/components/ui/pagination"; */
 
-import ProductGrid from "../product-grid/ProductGrid";
-import Styles from "./ProductSection.module.css";
-
+import ProductGrid from '../product-grid/ProductGrid';
+import Styles from './ProductSection.module.css';
 
 export default function ProductSection() {
-
   return (
     <section id="products" className={`gen-section ${Styles.product_section}`}>
-
       <div className="wrapper">
         <div className="flex flex-col items-center h-full gap-12">
           <div className={Styles.product_message}>
@@ -24,8 +21,8 @@ export default function ProductSection() {
               Explore the latest models
             </h2>
             <p className="">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et{" "}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et{' '}
             </p>
           </div>
 
@@ -39,7 +36,7 @@ export default function ProductSection() {
             </ul>
           </div>
 
-          <ProductGrid  />
+          <ProductGrid />
 
           {/*           <Pagination>
             <PaginationContent>

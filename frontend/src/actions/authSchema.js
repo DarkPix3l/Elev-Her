@@ -1,11 +1,9 @@
-import { z } from "zod";
-import { addYears, isBefore } from "date-fns";
+import { z } from 'zod';
+import { addYears, isBefore } from 'date-fns';
 
 export const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters." }),
+  email: z.string().email({ message: 'Invalid email address.' }),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
 
 const minAge = 16;
@@ -14,15 +12,15 @@ const minBirthDateAllowed = addYears(new Date(), -minAge);
 export const signupSchema = z.object({
   email: z
     .string()
-    .email({ message: "Invalid email address." })
-    .nonempty({ message: "Email is required." }),
+    .email({ message: 'Invalid email address.' })
+    .nonempty({ message: 'Email is required.' }),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters." })
-    .nonempty({ message: "Password is required." }),
+    .min(6, { message: 'Password must be at least 6 characters.' })
+    .nonempty({ message: 'Password is required.' }),
   birthDate: z
     .date({
-      required_error: "Date of birth is required.",
+      required_error: 'Date of birth is required.',
     })
     .refine(
       (date) => {
@@ -38,7 +36,7 @@ export const signupSchema = z.object({
 
   username: z
     .string()
-    .min(3, { message: "Username must be at least 3 characters." })
-    .max(20, { message: "Username must be at most 20 characters." })
-    .nonempty({ message: "Username is required." }),
+    .min(3, { message: 'Username must be at least 3 characters.' })
+    .max(20, { message: 'Username must be at most 20 characters.' })
+    .nonempty({ message: 'Username is required.' }),
 });

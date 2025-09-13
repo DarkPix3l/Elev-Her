@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -168,10 +168,10 @@
     color: var(--primary-txt);
   }
 
-    h3 {
+  h3 {
     font-size: 2rem;
     font-weight: 600;
-    margin-block-end: 0!important;
+    margin-block-end: 0 !important;
   }
 
   h1,
@@ -194,7 +194,7 @@
     padding: 5rem 0;
   }
 
-  section[aria-label="Notifications alt+T"] {
+  section[aria-label='Notifications alt+T'] {
     padding: 0 !important;
   }
 

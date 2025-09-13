@@ -1,13 +1,13 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: { type: "email", label: "Email" },
-        password: { type: "password", label: "Password" },
+        email: { type: 'email', label: 'Email' },
+        password: { type: 'password', label: 'Password' },
       },
 
       authorize: async (credentials) => {
@@ -15,18 +15,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         try {
           let response = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
-            method: "POST",
+            method: 'POST',
 
             body: JSON.stringify({ email, password }),
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           });
 
           let data = await response.json();
 
           if (!response.ok) throw new Error(data.message);
-          
+
           return {
             id: data.user.id,
             name: data.user.name,
@@ -44,13 +44,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
-          prompt: "select_account",
+          prompt: 'select_account',
         },
       },
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
 
   callbacks: {
@@ -61,13 +61,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.avatar= user.avatar;
+        token.avatar = user.avatar;
       }
 
-      if (account?.provider === "google") {
+      if (account?.provider === 'google') {
         const res = await fetch(`${process.env.API_BASE_URL}/auth/google`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id_token: account.id_token }),
         });
         const data = await res.json();
@@ -78,9 +78,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return token;
     },
-   
+
     session({ session, token }) {
-     
       session.user = {
         id: token.id,
         name: token.name,

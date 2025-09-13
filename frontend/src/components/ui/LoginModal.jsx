@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/Button";
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/Button';
 import {
   Card,
   CardAction,
@@ -9,16 +9,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/actions/authSchema";
-import { login, signup, loginWithGoogle } from "@/actions/auth";
-import { useAuthModalStore } from "@/store/authModalStore";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from '@/actions/authSchema';
+import { login, signup, loginWithGoogle } from '@/actions/auth';
+import { useAuthModalStore } from '@/store/authModalStore';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function CardDemo() {
   const [isLoginView, setIsLoginView] = useState(true);
@@ -34,8 +34,8 @@ export function CardDemo() {
   } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -51,27 +51,27 @@ export function CardDemo() {
     try {
       const res = await login(data);
       if (res?.success) {
-        toast.success("Signed in successfully!", { id: "signup-success" });
+        toast.success('Signed in successfully!', { id: 'signup-success' });
         closeModal();
         router.refresh();
       }
     } catch (err) {
-      console.error("Authentication failed", err);
-      toast.error(err || "Failed to register", { id: "signup-error" });
+      console.error('Authentication failed', err);
+      toast.error(err || 'Failed to register', { id: 'signup-error' });
     }
   };
 
   const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  
+
   return (
     <div
       className={`p-9 absolute top-0 left-0 flex items-center justify-center z-20 w-screen h-screen ${
-        isOpen ? "animate-fade-in" : "animate-fade-out"
+        isOpen ? 'animate-fade-in' : 'animate-fade-out'
       }`}
     >
       <Card
         className={`w-sm md:w-md lg:w-lg ${
-          isOpen ? "animate-slide-up" : "animate-slide-down"
+          isOpen ? 'animate-slide-up' : 'animate-slide-down'
         } z-20 `}
       >
         <CardHeader>
@@ -96,7 +96,7 @@ export function CardDemo() {
                   type="email"
                   placeholder="m@example.com"
                   required
-                  {...register("email")}
+                  {...register('email')}
                   disabled={isSubmitting}
                   autoComplete="email"
                 />
@@ -117,7 +117,7 @@ export function CardDemo() {
                   type="password"
                   placeholder="••••••••"
                   required
-                  {...register("password")}
+                  {...register('password')}
                   disabled={isSubmitting}
                   autoComplete="password"
                 />
@@ -149,7 +149,7 @@ export function CardDemo() {
                     />
                   </svg>
                 ) : (
-                  "Login"
+                  'Login'
                 )}
               </Button>
             </div>
@@ -177,9 +177,9 @@ export function CardDemo() {
         className="bg-black/80 w-screen h-screen absolute z-10 blur"
         style={{
           backgroundImage: `url(${baseURL}/Vector2.png)`,
-          backgroundSize: "100%",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
+          backgroundSize: '100%',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
         }}
       ></div>
     </div>

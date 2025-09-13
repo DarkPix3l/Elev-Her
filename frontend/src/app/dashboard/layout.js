@@ -1,13 +1,13 @@
-import { auth } from "@/app/auth";
-import { redirect } from "next/navigation";
-import Navbar from "@/components/ui/NavBar";
-import DashboardMenu from "@/components/UserDashboard/DashboardMenu";
+import { auth } from '@/app/auth';
+import { redirect } from 'next/navigation';
+import Navbar from '@/components/ui/NavBar';
+import DashboardMenu from '@/components/UserDashboard/DashboardMenu';
 
 export default async function DashboardLayout({ children }) {
   const session = await auth();
 
   if (!session || !session.user) {
-    redirect("/");
+    redirect('/');
   }
 
   return (

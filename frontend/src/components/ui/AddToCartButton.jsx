@@ -1,6 +1,6 @@
-import { PlusIcon } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import React from "react";
+import { PlusIcon } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import React from 'react';
 
 export const AddToCartButton = React.forwardRef(function AddToCartButton(
   { onClick, disabled, className, ...props },

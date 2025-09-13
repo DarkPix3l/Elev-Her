@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import useProductDialogStore from "@/store/useProductDialogStore";
-import { Star, ShoppingCart, Heart } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import ProductDialogContent from "../ui/product_dialog/ProductDialogContent";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import StarRating from "@/components/ui/StarRating";
+import useProductDialogStore from '@/store/useProductDialogStore';
+import { Star, ShoppingCart, Heart } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import ProductDialogContent from '../ui/product_dialog/ProductDialogContent';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import StarRating from '@/components/ui/StarRating';
 
 export default function ProductGrid({ products, onAddToCart }) {
   const {
@@ -27,27 +27,20 @@ export default function ProductGrid({ products, onAddToCart }) {
     }
   };
 
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {products &&
         products.map((product) => (
-          <Card
-            key={product.slug}
-            className="group hover:shadow-lg transition-shadow"
-          >
+          <Card key={product.slug} className="group hover:shadow-lg transition-shadow">
             <CardContent className="p-0 md:p-3">
               <div className="relative mb-4">
                 <img
-                  src={product.mainImage || "/placeholder.svg"}
+                  src={product.mainImage || '/placeholder.svg'}
                   alt={product.title}
                   className="w-full h-48 object-cover rounded-lg"
                 />
                 {!product.inStock && (
-                  <Badge
-                    className="absolute top-2 left-2"
-                    variant="destructive"
-                  >
+                  <Badge className="absolute top-2 left-2" variant="destructive">
                     Out of Stock
                   </Badge>
                 )}
@@ -74,9 +67,7 @@ export default function ProductGrid({ products, onAddToCart }) {
                   <div className="text-right">
                     <p className="font-bold text-lg">€{product.price}</p>
                     {product.originalPrice > product.price && (
-                      <p className="text-sm text-gray-500 line-through">
-                        €{product.originalPrice}
-                      </p>
+                      <p className="text-sm text-gray-500 line-through">€{product.originalPrice}</p>
                     )}
                   </div>
                 </div>
@@ -99,7 +90,7 @@ export default function ProductGrid({ products, onAddToCart }) {
                         onClick={() => setSelectedProduct(product)}
                       >
                         <ShoppingCart className="h-4 w-4 mr-2" />
-                        {product.inStock ? "Add to Cart" : "Out of Stock"}
+                        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                       </Button>
                     </DialogTrigger>
                     <ProductDialogContent
