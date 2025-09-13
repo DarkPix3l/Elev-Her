@@ -1,12 +1,14 @@
 import product from "./product.schema.js";
 import supabase from "../../lib/superbaseClient.js";
 import { v4 as uuidv4 } from "uuid";
+import SUPABASE_BUCKET_PRODUCT from "../../config/variable.js";
 
 export const getProducts = async (req, res) => {
   try {
     let products = await product.find();
     return res.send(products);
   } catch (error) {
+    console.error(error);
     return res.status(500).send("Server Error");
   }
 };
@@ -22,20 +24,7 @@ export const createProduct = async (req, res) => {
   try {
     // Destructure ONLY non-image fields from req.body.
     // mainImage and images will come from req.files after upload.
-    const {
-      title,
-      summary,
-      description,
-      price,
-      inStock,
-      quantity,
-      sizes,
-      color,
-      categories,
-      metaTitle,
-      metaDescription,
-      metaKeywords,
-    } = req.body;
+    const { title, summary, description, price, inStock, quantity, sizes, color, categories, metaTitle, metaDescription, metaKeywords } = req.body;
 
     const mainImageFile = req.files && req.files["mainImage"] ? req.files["mainImage"][0] : null;
     const imagesFiles = (req.files && req.files["images"]) || [];
@@ -49,19 +38,16 @@ export const createProduct = async (req, res) => {
       const fileName = `${uuidv4()}.${fileExtension}`;
       const filePath = `${fileName}`;
 
-      const { data, error } = await supabase.storage
-        .from(SUPABASE_BUCKET_NAME)
-        .upload(filePath, mainImageFile.buffer, {
-          contentType: mainImageFile.mimetype,
-          upsert: false,
-        });
+      const { error } = await supabase.storage.from(SUPABASE_BUCKET_PRODUCT).upload(filePath, mainImageFile.buffer, {
+        contentType: mainImageFile.mimetype,
+        upsert: false,
+      });
 
       if (error) {
         console.error("Error uploading main image to Supabase:", error);
         return res.status(500).send("Error uploading main image.");
       }
-      mainImagePublicUrl = supabase.storage.from(SUPABASE_BUCKET_NAME).getPublicUrl(filePath)
-        .data.publicUrl;
+      mainImagePublicUrl = supabase.storage.from(SUPABASE_BUCKET_PRODUCT).getPublicUrl(filePath).data.publicUrl;
     }
 
     // --- UPLOAD ADDITIONAL IMAGES ---
@@ -70,21 +56,17 @@ export const createProduct = async (req, res) => {
       const fileName = `${uuidv4()}.${fileExtension}`;
       const filePath = `${fileName}`;
 
-      const { data, error } = await supabase.storage
-        .from(SUPABASE_BUCKET_NAME)
-        .upload(filePath, file.buffer, {
-          contentType: file.mimetype,
-          upsert: false,
-        });
+      const { error } = await supabase.storage.from(SUPABASE_BUCKET_PRODUCT).upload(filePath, file.buffer, {
+        contentType: file.mimetype,
+        upsert: false,
+      });
 
       if (error) {
         console.error("Error uploading additional image to Supabase:", error);
         // Continue loop if one image fails, don't stop the whole product creation
         continue;
       }
-      imagesPublicUrls.push(
-        supabase.storage.from(SUPABASE_BUCKET_NAME).getPublicUrl(filePath).data.publicUrl
-      );
+      imagesPublicUrls.push(supabase.storage.from(SUPABASE_BUCKET_PRODUCT).getPublicUrl(filePath).data.publicUrl);
     }
 
     /* let userId = req.user._id; */

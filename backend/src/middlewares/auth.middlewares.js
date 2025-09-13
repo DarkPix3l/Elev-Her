@@ -17,6 +17,7 @@ export const AuthGuard = async (request, response, next) => {
 		request.user = user;
 		next();
 	} catch (error) {
+		console.error(error);
 		return response.status(401).send("Unauthorized");
 	}
 };
@@ -28,6 +29,7 @@ export const RoleGuard = (role) => {
 			if (user.role != role) return response.status(403).send("Unautorized");
 			next();
 		} catch (error) {
+			console.error(error);
 			return response.status(500).send("Server Error");
 		}
 	};

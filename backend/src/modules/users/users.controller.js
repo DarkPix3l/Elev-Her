@@ -70,6 +70,7 @@ export const createUser = async (req, res) => {
       message: "User created successfully!",
     });
   } catch (error) {
+     console.log(error);
     res.status(500).send("Server Error");
   }
 };
@@ -129,7 +130,7 @@ export const updateUserAvatar = async (req, res) => {
     const fileName = `${uuidv4()}.${fileExtension}`;
     const bucketName = SUPABASE_BUCKET_NAME; 
 
-    const { data, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from(bucketName)
       .upload(fileName, file.buffer, {
         contentType: file.mimetype,
