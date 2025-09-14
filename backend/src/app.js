@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 startDatabase();
-app.use(cors({ origin: FRONTEND }));
+app.use(cors({ origin: FRONTEND,  credentials: true }));
 
 app.use(`${API_URL}/products`, productsRoutes);
 app.use(`${API_URL}/users`, usersRoutes);

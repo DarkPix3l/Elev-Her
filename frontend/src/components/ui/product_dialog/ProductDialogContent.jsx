@@ -1,6 +1,11 @@
 'use client';
 
-import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/Button';
 import {
   Select,
@@ -22,6 +27,9 @@ export default function ProductDialogContent({
     <DialogContent className="bg-[linear-gradient(to_bottom,oklch(36.194%_0.03849_276.321),oklch(0.4775_0.0947_273.46))] border border-white shadow-lg">
       <DialogHeader>
         <DialogTitle>{product.summary}</DialogTitle>
+        <DialogDescription className="sr-only">
+          Select a size and color to add this product to your cart.
+        </DialogDescription>
       </DialogHeader>
       <div className="space-y-4">
         <h2>{product.title}</h2>

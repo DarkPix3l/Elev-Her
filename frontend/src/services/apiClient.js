@@ -3,8 +3,13 @@ import { getSession } from 'next-auth/react';
 import { auth } from '@/app/auth';
 
 export const fetchProducts = async () => {
-  const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH}/products`);
-  return response.data;
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH}/products`);
+    return { ok: true, data: response.data };
+  } catch (err) {
+    console.log('Backend not available:', err.message);
+    return { ok: false, data: [] };
+  }
 };
 
 export const axiosInstance = axios.create({
