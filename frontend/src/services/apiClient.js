@@ -7,7 +7,7 @@ export const fetchProducts = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH}/products`);
     return { ok: true, data: response.data };
   } catch (err) {
-    console.log('Backend not available:', err.message);
+    console.log('can not fetch:', err.message);
     return { ok: false, data: [] };
   }
 };
