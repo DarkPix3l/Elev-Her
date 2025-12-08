@@ -1,5 +1,4 @@
-// hooks/useSidenav.js
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect} from 'react';
 
 export const useSidenav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +18,15 @@ export const useSidenav = () => {
     setIsOpen(false);
   }, []);
 
-  // Handle delayed unmount
+  useLayoutEffect(() => {
+    if (isOpen) setShouldRender(true);
+  }, [isOpen]);
+
+  // Handle delayed unmount for transition to finish
   useEffect(() => {
-    if (isOpen) {
-      setShouldRender(true);
-    } else {
-      const timeout = setTimeout(() => setShouldRender(false), 300);
-      return () => clearTimeout(timeout);
+    if (!isOpen) {
+      const t = setTimeout(() => setShouldRender(false), 300);
+      return () => clearTimeout(t);
     }
   }, [isOpen]);
 

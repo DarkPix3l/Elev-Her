@@ -1,5 +1,5 @@
 import UserProfile from '@/components/UserDashboard/UserProfile';
-import { getUserData } from '@/services/apiClient';
+import { getUserData } from '@/services/apiServer';
 
 export default async function ProfilePage() {
   const user = await getUserData();

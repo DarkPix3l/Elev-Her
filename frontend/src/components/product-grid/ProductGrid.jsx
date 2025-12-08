@@ -1,6 +1,6 @@
 import ErrorCard from '../error/ErrorCard';
 import ProductCard from './ProductCard';
-import { fetchProducts } from '@/services/apiClient.js';
+import { fetchProducts } from '@/services/apiServer';
 import { TbShoeOff } from 'react-icons/tb';
 
 export default async function ProductGrid() {

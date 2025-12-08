@@ -1,5 +1,5 @@
 import ProductClient from './ProductClient';
-import { fetchProducts } from '@/services/apiClient';
+import { fetchProducts } from '@/services/apiServer';
 import { TbShoeOff } from 'react-icons/tb';
 import ErrorCard from '@/components/error/ErrorCard.jsx';
 
