@@ -15,7 +15,7 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
+/*   webpack: (config, { isServer }) => {
     if (isServer) {
       // The `externals` array is where Node.js modules that shouldn't be bundled go.
       // We must check if it exists before pushing to it.
@@ -28,7 +28,7 @@ const nextConfig = {
     }
 
     return config;
-  },
+  }, */
 };
 
 export default nextConfig;
